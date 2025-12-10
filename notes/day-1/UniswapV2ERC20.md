@@ -1,3 +1,5 @@
+
+
 # UniswapV2ERC20.sol 学习笔记
 
 ---
@@ -18,21 +20,74 @@ mapping(address => mapping(address => uint)) public allowance;  // 授权额度
 
 ### 1.2 变量说明
 
-- 这三个变量都是给 **EIP-712 离线签名（permit）** 准备的
+- 下面三个变量都是给 **EIP-712 离线签名（permit）** 准备的
 
-1. `PERMIT_TYPEHASH`把 `Permit(owner,spender,value,nonce,deadline)` 这个结构体的 keccak256 哈希硬编码成常量。链上不需要每次重新算，省一次哈希开销。
+1. `PERMIT_TYPEHASH：`  它的值是 **“Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)”** 这个字符串 keccak256 后的哈希值，只是提前在源码里硬编码好，链上不需要每次重新算，省一次哈希开销。
 
-2. `nonces`每个地址已经用过多少次 permit。签名里必须带当前 nonce，执行完后 `nonces[owner]++`，防止同一份签名被重复提交（replay attack）。
+2. `nonces`：表示每个地址已经用过多少次 permit。在后续的permit()方法，  源代码87行位置里必须带当前 nonce。
 
-3. `DOMAIN_SEPARATOR`在构造函数里拼好的 EIP-712“域名哈希”，把合约地址、链 ID、名字、版本等固定信息压成一个哈希。
+   > `keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))`  ，执行完后 `nonces[owner]++`，防止同一份签名被重复提交（replay attack）。
 
-   作用：**让签名只在**
+3. `DOMAIN_SEPARATOR`：它是在构造函数里拼好的 EIP-712“域名哈希”，把合约地址、链 ID、名字、版本等固定信息压成一个哈希。作用：让签名只在
 
    - 该合约
    - 该链
    - 该版本上有效，防止跨合约/跨链重放。
 
-### 1.3 核心函数
+
+
+### 1.3 构造方法说明
+
+> 这段构造函数只做一件事：
+>
+> **给 EIP-712 的“域名分隔符”DOMAIN_SEPARATOR 赋值**，以便后面permit()离线签名时能验证“这份签名只属于本合约、本链、本版本”。
+
+- keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)')
+- 为了给机器看的，是在 EIP-712 标准 里充当 “类型描述符的哈希”——官方叫 typeHash。
+
+```
+constructor() public {
+        uint chainId;
+        assembly {
+            chainId := chainid   //0.5.16 还没有全局变量 block.chainid，只能用汇编；0.8+后的版本已经内置了。
+        }
+        DOMAIN_SEPARATOR = keccak256(
+            abi.encode(
+		       //签名消息的结构类型
+                keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
+                keccak256(bytes(name)), //token 名称的哈希，name = 'Uniswap V2'
+                keccak256(bytes('1')),  //版本号写死为字符串 '1'
+                chainId,                //让签名只在当前链有效
+                address(this)           //让签名只在当前合约地址有效
+            )
+        );
+    }
+```
+
+> 关于 address（this）的说明：
+
+###### 含义：
+
+“把**本合约的地址**写进 DOMAIN_SEPARATOR，让离线签名只能给这个**特定的 LP 代币合约**使用，防止签名被拿到别的池子/别的代币那里重放。”
+
+###### 所以：
+
+- 每部署一个新的 pair（即新建一个 `UniswapV2ERC20` 实例），`address(this)` 都是**全新的 pair 地址**。
+- 用户收到的 `UNI-V2` 代币合约地址，就是这里的 `address(this)`。
+
+> 以后任何人用 `permit()` 提交离线签名时，合约都会把 `DOMAIN_SEPARATOR` 再混进去算一次最终哈希
+
+###### 确保：
+
+- 签名不是另一条链的重放
+- 签名不是另一个合约的重放
+- 签名不是旧版本的重放
+
+**DOMAIN_SEPARATOR 就是“这份签名只能给本合约用”的边界标识。**
+
+
+
+### 1.4 核心函数
 
 | 函数                              | 作用                             | 可见性   |
 | --------------------------------- | -------------------------------- | -------- |
@@ -44,7 +99,7 @@ mapping(address => mapping(address => uint)) public allowance;  // 授权额度
 | `transfer(to, value)`             | 外部转账接口                     | external |
 | `transferFrom(from, to, value)`   | 授权转账接口                     | external |
 
-### 1.4 transferFrom 的无限授权优化
+### 1.5 transferFrom 的无限授权优化
 ```solidity
 if (allowance[from][msg.sender] != uint(-1)) {
     allowance[from][msg.sender] = allowance[from][msg.sender].sub(value);
@@ -113,7 +168,7 @@ _approve(owner, spender, value);
 
 ### 2.4 工作流程图
 
-##### 上半部分：三大角色交互
+##### 流程图上半部分：三大角色交互
 
 | 角色               | 核心操作                                    |
 | ------------------ | ------------------------------------------- |
@@ -123,7 +178,7 @@ _approve(owner, spender, value);
 
 <img src="../../images/permit_flow.svg" style="zoom:80%;" />
 
-##### 下半部分：详细数据流转
+##### 流程图下半部分：详细数据流转
 
 1. **EIP-712 签名消息结构**：`\\\\x19\\\\x01` + DOMAIN_SEPARATOR + structHash
 2. **签名生成**：digest → ECDSA 签名 → v, r, s
@@ -133,12 +188,12 @@ _approve(owner, spender, value);
 ```
 用户(离线)                           链上
     |                                  |
-    |-- 1. 构造 permit 消息 -------->  |
-    |-- 2. 用私钥签名(v,r,s) ------>   |
+    |-- 1. 构造 permit 消息 -------->   |
+    |-- 2. 用私钥签名(v,r,s) ------>    |
     |                                  |
-    |-- 3. 将签名发给中继者/Dapp -->   |
+    |-- 3. 将签名发给中继者/Dapp -->    |
     |                                  |
-    |   中继者调用 permit(...)  -----> | 4. 验证签名
+    |   中继者调用 permit(...)  ----->  | 4. 验证签名
     |                                  | 5. 执行 _approve()
     |                                  |
 ```
@@ -173,12 +228,15 @@ DOMAIN_SEPARATOR = keccak256(
 
 ### 3.2 PERMIT_TYPEHASH（类型哈希）
 
+- 来源及生成方式前面在[变量说明](#1.2-变量说明)的地方已经解释过，此处不再重复。
+
 ```solidity
 bytes32 public constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
 // = keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)")
 ```
 
 **作用：**
+
 - 定义签名消息的**结构类型**
 - 确保签名内容的格式一致性
 - 用户钱包可据此显示可读的签名内容（而非盲签）
