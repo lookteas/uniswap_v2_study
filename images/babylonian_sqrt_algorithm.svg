@@ -1,0 +1,315 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="startGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="processGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="loopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#f472b6"/>
+    </linearGradient>
+    <linearGradient id="endGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14b8a6"/>
+      <stop offset="100%" style="stop-color:#5eead4"/>
+    </linearGradient>
+    <linearGradient id="mathGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="exampleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7"/>
+      <stop offset="100%" style="stop-color:#fde68a"/>
+    </linearGradient>
+    
+    <!-- 阴影效果 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+    
+    <!-- 箭头标记 -->
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ec4899"/>
+    </marker>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="1600" fill="#f8fafc"/>
+  
+  <!-- ==================== 标题区域 ==================== -->
+  <rect x="300" y="20" width="600" height="60" rx="12" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="600" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20" font-weight="bold">
+    巴比伦法求平方根 (Babylonian Method)
+  </text>
+  <text x="600" y="68" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="14">
+    又称牛顿迭代法 | Math.sqrt() 实现原理
+  </text>
+  
+  <!-- ==================== 数学原理区域 ==================== -->
+  <rect x="50" y="100" width="500" height="200" rx="10" fill="white" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="100" width="500" height="35" rx="10" fill="url(#mathGrad)"/>
+  <text x="300" y="125" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+    📐 数学原理
+  </text>
+  
+  <text x="70" y="160" fill="#333" font-family="Arial, sans-serif" font-size="14" font-weight="bold">核心思想：</text>
+  <text x="70" y="185" fill="#555" font-family="Arial, sans-serif" font-size="13">
+    如果 x 是 √y 的估计值，那么 (x + y/x) / 2 是更好的估计值
+  </text>
+  
+  <text x="70" y="215" fill="#333" font-family="Arial, sans-serif" font-size="14" font-weight="bold">为什么有效？</text>
+  <text x="70" y="240" fill="#555" font-family="Arial, sans-serif" font-size="12">• 如果 x > √y，则 y/x &lt; √y，两者平均值更接近 √y</text>
+  <text x="70" y="260" fill="#555" font-family="Arial, sans-serif" font-size="12">• 如果 x &lt; √y，则 y/x > √y，两者平均值更接近 √y</text>
+  <text x="70" y="280" fill="#555" font-family="Arial, sans-serif" font-size="12">• 每次迭代精度翻倍（二次收敛）</text>
+  
+  <!-- ==================== 公式区域 ==================== -->
+  <rect x="580" y="100" width="570" height="200" rx="10" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="580" y="100" width="570" height="35" rx="10" fill="url(#processGrad)"/>
+  <text x="865" y="125" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+    📝 迭代公式
+  </text>
+  
+  <!-- 公式框 -->
+  <rect x="620" y="150" width="490" height="60" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+  <text x="865" y="175" text-anchor="middle" fill="#1e40af" font-family="Georgia, serif" font-size="22" font-style="italic">
+    x_new = (x + y / x) / 2
+  </text>
+  <text x="865" y="200" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="12">
+    新估计值 = (当前估计值 + 目标值/当前估计值) / 2
+  </text>
+  
+  <text x="600" y="235" fill="#333" font-family="Arial, sans-serif" font-size="13">
+    <tspan font-weight="bold">Solidity 实现：</tspan>
+  </text>
+  <text x="620" y="260" fill="#1e40af" font-family="monospace" font-size="12">x = (y / x + x) / 2</text>
+  <text x="620" y="280" fill="#6b7280" font-family="Arial, sans-serif" font-size="11">// 先除后加，避免溢出</text>
+  
+  <!-- ==================== 主流程图 ==================== -->
+  
+  <!-- 开始节点 -->
+  <ellipse cx="600" cy="360" rx="100" ry="30" fill="url(#startGrad)" filter="url(#shadow)"/>
+  <text x="600" y="366" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">
+    sqrt(y) 开始
+  </text>
+  
+  <!-- 箭头 -->
+  <line x1="600" y1="390" x2="600" y2="420" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- 判断 y > 3 -->
+  <polygon points="600,430 720,480 600,530 480,480" fill="url(#checkGrad)" filter="url(#shadow)"/>
+  <text x="600" y="475" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">
+    y > 3 ?
+  </text>
+  <text x="600" y="495" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="11">
+    需要迭代计算？
+  </text>
+  
+  <!-- No 分支 (y <= 3) -->
+  <line x1="480" y1="480" x2="300" y2="480" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="390" y="470" fill="#ef4444" font-family="Arial, sans-serif" font-size="12" font-weight="bold">No</text>
+  
+  <!-- y <= 3 的处理 -->
+  <rect x="120" y="440" width="170" height="80" rx="8" fill="white" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <text x="205" y="465" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="12" font-weight="bold">
+    特殊情况处理
+  </text>
+  <text x="205" y="485" text-anchor="middle" fill="#555" font-family="monospace" font-size="11">y == 0 → z = 0</text>
+  <text x="205" y="505" text-anchor="middle" fill="#555" font-family="monospace" font-size="11">y == 1,2,3 → z = 1</text>
+  
+  <!-- Yes 分支 -->
+  <line x1="600" y1="530" x2="600" y2="560" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="615" y="550" fill="#10b981" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Yes</text>
+  
+  <!-- 初始化 z = y -->
+  <rect x="480" y="570" width="240" height="50" rx="8" fill="url(#processGrad)" filter="url(#shadow)"/>
+  <text x="600" y="592" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    z = y
+  </text>
+  <text x="600" y="610" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="11">
+    初始化：保存旧估计值
+  </text>
+  
+  <!-- 箭头 -->
+  <line x1="600" y1="620" x2="600" y2="650" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- 初始化 x = y/2 + 1 -->
+  <rect x="450" y="660" width="300" height="50" rx="8" fill="url(#processGrad)" filter="url(#shadow)"/>
+  <text x="600" y="682" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    x = y / 2 + 1
+  </text>
+  <text x="600" y="700" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="11">
+    第一次估计值（比 y 小）
+  </text>
+  
+  <!-- 箭头进入循环 -->
+  <line x1="600" y1="710" x2="600" y2="750" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- ==================== 循环区域 ==================== -->
+  <rect x="350" y="760" width="500" height="320" rx="15" fill="rgba(236,72,153,0.08)" stroke="#ec4899" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="600" y="785" text-anchor="middle" fill="#ec4899" font-family="Arial, sans-serif" font-size="14" font-weight="bold">
+    🔄 迭代循环 (while x &lt; z)
+  </text>
+  
+  <!-- 循环条件判断 -->
+  <polygon points="600,810 700,855 600,900 500,855" fill="url(#loopGrad)" filter="url(#shadow)"/>
+  <text x="600" y="850" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">
+    x &lt; z ?
+  </text>
+  <text x="600" y="870" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">
+    新估计值 &lt; 旧估计值？
+  </text>
+  
+  <!-- Yes: 继续迭代 -->
+  <line x1="600" y1="900" x2="600" y2="930" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="615" y="920" fill="#10b981" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Yes</text>
+  
+  <!-- z = x (保存当前估计值) -->
+  <rect x="480" y="940" width="240" height="45" rx="8" fill="url(#loopGrad)" filter="url(#shadow)"/>
+  <text x="600" y="960" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    z = x
+  </text>
+  <text x="600" y="978" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="10">
+    保存当前估计值为"旧值"
+  </text>
+  
+  <!-- 箭头 -->
+  <line x1="600" y1="985" x2="600" y2="1010" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- x = (y/x + x) / 2 -->
+  <rect x="450" y="1020" width="300" height="45" rx="8" fill="url(#loopGrad)" filter="url(#shadow)"/>
+  <text x="600" y="1040" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    x = (y / x + x) / 2
+  </text>
+  <text x="600" y="1058" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="10">
+    计算新的估计值
+  </text>
+  
+  <!-- 循环回去的箭头 -->
+  <path d="M 600 1065 L 600 1075 L 820 1075 L 820 855 L 710 855" fill="none" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <text x="830" y="965" fill="#ec4899" font-family="Arial, sans-serif" font-size="11" font-weight="bold">继续循环</text>
+  
+  <!-- No: 退出循环 -->
+  <line x1="500" y1="855" x2="380" y2="855" stroke="#ef4444" stroke-width="2"/>
+  <line x1="380" y1="855" x2="380" y2="1120" stroke="#ef4444" stroke-width="2"/>
+  <line x1="380" y1="1120" x2="540" y2="1120" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="420" y="845" fill="#ef4444" font-family="Arial, sans-serif" font-size="12" font-weight="bold">No (收敛)</text>
+  
+  <!-- 返回结果 -->
+  <ellipse cx="600" cy="1120" rx="90" ry="30" fill="url(#endGrad)" filter="url(#shadow)"/>
+  <text x="600" y="1126" text-anchor="middle" fill="#065f46" font-family="Arial, sans-serif" font-size="14" font-weight="bold">
+    return z
+  </text>
+  
+  <!-- ==================== 示例计算区域 ==================== -->
+  <rect x="50" y="1180" width="1100" height="400" rx="12" fill="url(#exampleGrad)" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="1180" width="1100" height="40" rx="12" fill="url(#checkGrad)"/>
+  <text x="600" y="1208" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">
+    📊 示例：计算 sqrt(16) = 4
+  </text>
+  
+  <!-- 表格头 -->
+  <rect x="80" y="1240" width="1040" height="35" rx="5" fill="#fbbf24"/>
+  <text x="150" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">迭代次数</text>
+  <text x="300" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">z (旧估计值)</text>
+  <text x="480" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">x (新估计值)</text>
+  <text x="680" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">计算过程</text>
+  <text x="950" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">x &lt; z ?</text>
+  <text x="1070" y="1263" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="13" font-weight="bold">操作</text>
+  
+  <!-- 初始化行 -->
+  <rect x="80" y="1280" width="1040" height="40" rx="0" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="150" y="1305" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="12">初始化</text>
+  <text x="300" y="1305" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">z = 16</text>
+  <text x="480" y="1305" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">x = 9</text>
+  <text x="680" y="1305" text-anchor="middle" fill="#6b7280" font-family="monospace" font-size="11">x = 16/2 + 1 = 9</text>
+  <text x="950" y="1305" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="12" font-weight="bold">9 &lt; 16 ✓</text>
+  <text x="1070" y="1305" text-anchor="middle" fill="#3b82f6" font-family="Arial, sans-serif" font-size="11">进入循环</text>
+  
+  <!-- 迭代1 -->
+  <rect x="80" y="1320" width="1040" height="40" rx="0" fill="#fef9c3" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="150" y="1345" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="12">迭代 1</text>
+  <text x="300" y="1345" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">z = 9</text>
+  <text x="480" y="1345" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">x = 5</text>
+  <text x="680" y="1345" text-anchor="middle" fill="#6b7280" font-family="monospace" font-size="11">x = (16/9 + 9)/2 = (1+9)/2 = 5</text>
+  <text x="950" y="1345" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="12" font-weight="bold">5 &lt; 9 ✓</text>
+  <text x="1070" y="1345" text-anchor="middle" fill="#ec4899" font-family="Arial, sans-serif" font-size="11">继续迭代</text>
+  
+  <!-- 迭代2 -->
+  <rect x="80" y="1360" width="1040" height="40" rx="0" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="150" y="1385" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="12">迭代 2</text>
+  <text x="300" y="1385" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">z = 5</text>
+  <text x="480" y="1385" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">x = 4</text>
+  <text x="680" y="1385" text-anchor="middle" fill="#6b7280" font-family="monospace" font-size="11">x = (16/5 + 5)/2 = (3+5)/2 = 4</text>
+  <text x="950" y="1385" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="12" font-weight="bold">4 &lt; 5 ✓</text>
+  <text x="1070" y="1385" text-anchor="middle" fill="#ec4899" font-family="Arial, sans-serif" font-size="11">继续迭代</text>
+  
+  <!-- 迭代3 -->
+  <rect x="80" y="1400" width="1040" height="40" rx="0" fill="#fef9c3" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="150" y="1425" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="12">迭代 3</text>
+  <text x="300" y="1425" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">z = 4</text>
+  <text x="480" y="1425" text-anchor="middle" fill="#333" font-family="monospace" font-size="13" font-weight="bold">x = 4</text>
+  <text x="680" y="1425" text-anchor="middle" fill="#6b7280" font-family="monospace" font-size="11">x = (16/4 + 4)/2 = (4+4)/2 = 4</text>
+  <text x="950" y="1425" text-anchor="middle" fill="#ef4444" font-family="Arial, sans-serif" font-size="12" font-weight="bold">4 &lt; 4 ✗</text>
+  <text x="1070" y="1425" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="11" font-weight="bold">收敛!</text>
+  
+  <!-- 结果行 -->
+  <rect x="80" y="1445" width="1040" height="45" rx="0" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="600" y="1475" text-anchor="middle" fill="#065f46" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+    ✅ 结果：return z = 4   |   √16 = 4   |   仅需 3 次迭代！
+  </text>
+  
+  <!-- ==================== 关键洞察区域 ==================== -->
+  <rect x="80" y="1510" width="340" height="70" rx="8" fill="white" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="250" y="1535" text-anchor="middle" fill="#8b5cf6" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    💡 为什么 x &lt; z 就停止？
+  </text>
+  <text x="250" y="1555" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    当 x ≥ z 时，说明估计值不再减小
+  </text>
+  <text x="250" y="1570" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    已经收敛到最接近的整数解
+  </text>
+  
+  <rect x="440" y="1510" width="340" height="70" rx="8" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="610" y="1535" text-anchor="middle" fill="#3b82f6" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    ⚡ 为什么收敛这么快？
+  </text>
+  <text x="610" y="1555" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    二次收敛：每次迭代精度翻倍
+  </text>
+  <text x="610" y="1570" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    256位整数通常只需 8 次迭代
+  </text>
+  
+  <rect x="800" y="1510" width="340" height="70" rx="8" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="970" y="1535" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="13" font-weight="bold">
+    🔒 为什么返回 z 而不是 x？
+  </text>
+  <text x="970" y="1555" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    循环退出时 x ≥ z
+  </text>
+  <text x="970" y="1570" text-anchor="middle" fill="#555" font-family="Arial, sans-serif" font-size="11">
+    z 是最后一个满足条件的较小值
+  </text>
+</svg>
