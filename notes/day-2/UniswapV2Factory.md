@@ -28,7 +28,7 @@
 
 ### 1.1.1 Pari 合约的说明（声明）
 
-`该合约第三天会学习到，因当当前合约引入了需要提前声明一下`
+`该合约第三天会学习到，因当前合约引入了需要提前声明一下`
 
 把“Pair 地址”想成**一只自动售货机**，更好理解。
 
@@ -40,7 +40,7 @@
    - 别人往这个地址打币，就等于**往售货机里投币**。
 -  **它身上挂着三块“功能牌”**
    - `swap(x, y, to)`：投 A 拿 B，瞬间换完。
-   - `mint(to)`：按比例给它两种币，它回赠“LP 代币”——代表你对售货机里所有币的**股份**。
+   - `mint(to)`：按比例给它两种币，它回赠“LP 代币”——代表你持有售货机里所有币的**股份**。
    - `burn(to)`：把 LP 代币还给它，它把两种币按比例退给你，同时把累计手续费也一起退。
 -  **它自己就是“行情盘”**
    - 每次有人交易，它都会用 `x * y = k` 重新定价，
@@ -141,16 +141,57 @@ function createPair(address tokenA, address tokenB) external returns (address pa
 (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
 ```
 **为什么要排序？**
+
 - 确保相同的 token 对总是产生相同的 salt
 - 保证 CREATE2 计算出的地址一致
 - 无论用户传入 `(A, B)` 还是 `(B, A)`，结果相同
+
+**生活场景举例：**停车场“对号入库”
+
+```
+
+1. 两辆车（代币）同时进场，车牌末尾数字就是它们的“身份证号”。  
+2. 保安不管谁先进来，只看数字大小：  
+   - 数字小的 → 发 A 区通行证  
+   - 数字大的 → 发 B 区通行证  
+3. 两辆车必须按“A 前 B 后”的顺序，**停进同一个固定车位**。  
+4. 以后任何再来找车的人，只要报这两块车牌，保安都用同一套“A→B”顺序去同一个车位领人。  
+
+这样一来：  
+- 不会给同一组车分配两个车位（重复建池）  
+- 任何人都能提前算出“它们肯定停在哪”（deterministic 地址）  
+- 整个停车场永远整洁、不冲突  
+
+链上排序同理：先比地址大小，小数在前，大数在后，再一起塞进唯一的 Pair 车位，保证全局一致。
+```
+
+
 
 #### 获取字节码
 ```solidity
 bytes memory bytecode = type(UniswapV2Pair).creationCode;
 ```
+- 这里的`creationCode` 并不是在 **源码文件**里，而是 **编译器在编译的那一刻** 算出来的，是**solidity的内置属性**，它**只存在于编译期**。（使用remix等编译器可以看到）
+
 - `creationCode` 是合约的**创建字节码**（包含构造函数）
+
 - 不同于 `runtimeCode`（运行时字节码，不含构造函数）
+
+- 想亲眼看到它长什么样，可以用下面方法：
+
+  ```
+  # 方法1： 使用foundry里的 forge 命令
+  forge inspect src/v2-core/contracts/UniswapV2Pair.sol bytecode
+  
+  # 方法2： 或者用 hardhat
+  npx hardhat compile
+  cat artifacts/contracts/UniswapV2Pair.sol/UniswapV2Pair.json | jq .bytecode
+  ```
+
+- 结果：
+
+  - **一长串 16 进制数**
+
 
 #### CREATE2 汇编调用
 ```solidity
@@ -281,6 +322,8 @@ library UQ112x112 {
 ```
 
 ### 5.4 为什么用 112 位？
+
+- 三个方面考虑
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
