@@ -130,7 +130,7 @@ function createPair(address tokenA, address tokenB) external returns (address pa
 
 
 
-<img src="D:\code\web3\uniswap\uniswap_v2_study\images\createPair_flowchart.svg" alt="createPair_flowchart" style="zoom:80%;" />
+<img src="../../images/createPair_flowchart.svg" alt="createPair_flowchart" style="zoom:80%;" />
 
 
 
@@ -365,7 +365,7 @@ function sqrt(uint y) internal pure returns (uint z) {
 
 ### 6.3 执行流程图
 
-![](D:\code\web3\uniswap\uniswap_v2_study\images\babylonian_sqrt_algorithm.svg)
+![babylonian_sqrt_algorithm](../../images/babylonian_sqrt_algorithm.svg)
 
 
 
