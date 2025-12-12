@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1450">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c"/>
+      <stop offset="100%" style="stop-color:#c0392b"/>
+    </linearGradient>
+    <linearGradient id="processGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="calcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f4fd"/>
+      <stop offset="100%" style="stop-color:#d1e9fc"/>
+    </linearGradient>
+    <linearGradient id="transferGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4edda"/>
+      <stop offset="100%" style="stop-color:#c3e6cb"/>
+    </linearGradient>
+    <linearGradient id="burnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8d7da"/>
+      <stop offset="100%" style="stop-color:#f5c6cb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="1450" fill="#f5f7fa"/>
+  
+  <!-- Title -->
+  <rect x="200" y="20" width="400" height="50" rx="25" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="400" y="52" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20" font-weight="bold">burn() 执行流程图</text>
+  
+  <!-- Start -->
+  <ellipse cx="400" cy="110" rx="80" ry="25" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="400" y="116" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">burn(to) 调用</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="400" y1="135" x2="400" y2="165" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Lock Check -->
+  <rect x="250" y="170" width="300" height="60" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="193" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">🔒 lock 修饰器检查</text>
+  <text x="400" y="213" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">require(unlocked == 1); unlocked = 0</text>
+  
+  <!-- Arrow 2 -->
+  <line x1="400" y1="230" x2="400" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Get Reserves & Tokens -->
+  <rect x="250" y="265" width="300" height="80" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">📊 获取储备量和代币地址</text>
+  <text x="400" y="310" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">(reserve0, reserve1) = getReserves()</text>
+  <text x="400" y="328" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">_token0 = token0; _token1 = token1</text>
+  
+  <!-- Arrow 3 -->
+  <line x1="400" y1="345" x2="400" y2="375" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Get Balances -->
+  <rect x="250" y="380" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">💰 获取合约实际代币余额</text>
+  <text x="400" y="425" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance0 = token0.balanceOf(this)</text>
+  <text x="400" y="443" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance1 = token1.balanceOf(this)</text>
+  
+  <!-- Arrow 4 -->
+  <line x1="400" y1="450" x2="400" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Get LP Token -->
+  <rect x="250" y="485" width="300" height="70" rx="8" fill="url(#calcGrad)" stroke="#17a2b8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#0c5460">🎫 获取待销毁的 LP Token</text>
+  <text x="400" y="530" text-anchor="middle" font-family="monospace" font-size="11" fill="#0c5460">liquidity = balanceOf[address(this)]</text>
+  <text x="400" y="548" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#6c757d">⚠️ 用户需先将 LP Token 转入合约</text>
+  
+  <!-- Arrow 5 -->
+  <line x1="400" y1="555" x2="400" y2="585" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- MintFee -->
+  <rect x="250" y="590" width="300" height="50" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="613" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">💸 _mintFee() 处理协议费用</text>
+  <text x="400" y="630" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">feeOn = _mintFee(reserve0, reserve1)</text>
+  
+  <!-- Arrow 6 -->
+  <line x1="400" y1="640" x2="400" y2="670" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Calculate Return Amounts -->
+  <rect x="200" y="675" width="400" height="100" rx="8" fill="url(#calcGrad)" stroke="#17a2b8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="700" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#0c5460">🧮 计算应返还的代币数量 (按比例)</text>
+  <line x1="220" y1="715" x2="580" y2="715" stroke="#17a2b8" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="400" y="740" text-anchor="middle" font-family="monospace" font-size="12" fill="#0c5460">amount0 = liquidity × balance0 / totalSupply</text>
+  <text x="400" y="762" text-anchor="middle" font-family="monospace" font-size="12" fill="#0c5460">amount1 = liquidity × balance1 / totalSupply</text>
+  
+  <!-- Arrow 7 -->
+  <line x1="400" y1="775" x2="400" y2="805" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Require Check -->
+  <rect x="250" y="810" width="300" height="50" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="833" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">✅ 验证返还金额</text>
+  <text x="400" y="850" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">require(amount0 &gt; 0 &amp;&amp; amount1 &gt; 0)</text>
+  
+  <!-- Arrow 8 -->
+  <line x1="400" y1="860" x2="400" y2="890" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Burn LP Token -->
+  <rect x="250" y="895" width="300" height="60" rx="8" fill="url(#burnGrad)" stroke="#dc3545" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="920" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#721c24">🔥 销毁 LP Token</text>
+  <text x="400" y="940" text-anchor="middle" font-family="monospace" font-size="11" fill="#721c24">_burn(address(this), liquidity)</text>
+  
+  <!-- Arrow 9 -->
+  <line x1="400" y1="955" x2="400" y2="985" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Transfer Tokens -->
+  <rect x="200" y="990" width="400" height="90" rx="8" fill="url(#transferGrad)" stroke="#28a745" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1015" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#155724">💸 转出代币给用户</text>
+  <line x1="220" y1="1030" x2="580" y2="1030" stroke="#28a745" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="400" y="1050" text-anchor="middle" font-family="monospace" font-size="11" fill="#155724">_safeTransfer(token0, to, amount0)</text>
+  <text x="400" y="1068" text-anchor="middle" font-family="monospace" font-size="11" fill="#155724">_safeTransfer(token1, to, amount1)</text>
+  
+  <!-- Arrow 10 -->
+  <line x1="400" y1="1080" x2="400" y2="1110" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Refresh Balances -->
+  <rect x="250" y="1115" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1140" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">🔄 重新获取余额</text>
+  <text x="400" y="1160" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance0 = token0.balanceOf(this)</text>
+  <text x="400" y="1178" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance1 = token1.balanceOf(this)</text>
+  
+  <!-- Arrow 11 -->
+  <line x1="400" y1="1185" x2="400" y2="1215" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Update Reserves -->
+  <rect x="250" y="1220" width="300" height="60" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1245" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">📝 _update() 更新储备量</text>
+  <text x="400" y="1265" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">_update(balance0, balance1, ...)</text>
+  
+  <!-- Arrow 12 -->
+  <line x1="400" y1="1280" x2="400" y2="1310" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Final Steps -->
+  <rect x="250" y="1315" width="300" height="80" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1340" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">📋 收尾工作</text>
+  <text x="400" y="1360" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">if (feeOn) kLast = reserve0 × reserve1</text>
+  <text x="400" y="1378" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">emit Burn(sender, amount0, amount1, to)</text>
+  <text x="400" y="1393" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">unlocked = 1 (解锁)</text>
+  
+  <!-- Arrow 13 -->
+  <line x1="400" y1="1395" x2="400" y2="1415" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- End -->
+  <ellipse cx="400" cy="1435" rx="120" ry="25" fill="#28a745" filter="url(#shadow)"/>
+  <text x="400" y="1441" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">返回 (amount0, amount1)</text>
+  
+  <!-- Side Note Box -->
+  <rect x="620" y="675" width="160" height="100" rx="8" fill="#fff3cd" stroke="#ffc107" stroke-width="2" filter="url(#shadow)"/>
+  <text x="700" y="700" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#856404">💡 关键点</text>
+  <text x="700" y="720" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#856404">使用 balance</text>
+  <text x="700" y="735" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#856404">而非 reserve</text>
+  <text x="700" y="755" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#856404">确保 pro-rata</text>
+  <text x="700" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#856404">按比例分配</text>
+  
+  <!-- Arrow to note -->
+  <line x1="600" y1="725" x2="620" y2="725" stroke="#ffc107" stroke-width="2" stroke-dasharray="5,3"/>
+</svg>

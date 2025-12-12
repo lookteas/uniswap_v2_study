@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1400">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="processGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="decisionGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff3cd"/>
+      <stop offset="100%" style="stop-color:#ffeeba"/>
+    </linearGradient>
+    <linearGradient id="firstMintGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4edda"/>
+      <stop offset="100%" style="stop-color:#c3e6cb"/>
+    </linearGradient>
+    <linearGradient id="laterMintGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#cce5ff"/>
+      <stop offset="100%" style="stop-color:#b8daff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="1400" fill="#f5f7fa"/>
+  
+  <!-- Title -->
+  <rect x="200" y="20" width="400" height="50" rx="25" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="400" y="52" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20" font-weight="bold">mint() 执行流程图</text>
+  
+  <!-- Start -->
+  <ellipse cx="400" cy="110" rx="80" ry="25" fill="#28a745" filter="url(#shadow)"/>
+  <text x="400" y="116" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">mint(to) 调用</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="400" y1="135" x2="400" y2="165" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Lock Check -->
+  <rect x="250" y="170" width="300" height="60" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="193" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">🔒 lock 修饰器检查</text>
+  <text x="400" y="213" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">require(unlocked == 1); unlocked = 0</text>
+  
+  <!-- Arrow 2 -->
+  <line x1="400" y1="230" x2="400" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Get Reserves -->
+  <rect x="250" y="265" width="300" height="60" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">📊 获取当前储备量</text>
+  <text x="400" y="308" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">(reserve0, reserve1) = getReserves()</text>
+  
+  <!-- Arrow 3 -->
+  <line x1="400" y1="325" x2="400" y2="355" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Get Balances -->
+  <rect x="250" y="360" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">💰 获取合约实际代币余额</text>
+  <text x="400" y="405" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance0 = token0.balanceOf(this)</text>
+  <text x="400" y="420" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">balance1 = token1.balanceOf(this)</text>
+  
+  <!-- Arrow 4 -->
+  <line x1="400" y1="430" x2="400" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Calculate Amounts -->
+  <rect x="250" y="465" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">🧮 计算新增代币数量</text>
+  <text x="400" y="510" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">amount0 = balance0 - reserve0</text>
+  <text x="400" y="525" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">amount1 = balance1 - reserve1</text>
+  
+  <!-- Arrow 5 -->
+  <line x1="400" y1="535" x2="400" y2="565" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- MintFee -->
+  <rect x="250" y="570" width="300" height="50" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="593" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">💸 _mintFee() 处理协议费用</text>
+  <text x="400" y="610" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">feeOn = _mintFee(reserve0, reserve1)</text>
+  
+  <!-- Arrow 6 -->
+  <line x1="400" y1="620" x2="400" y2="650" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Decision Diamond -->
+  <polygon points="400,660 520,720 400,780 280,720" fill="url(#decisionGrad)" stroke="#ffc107" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="715" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">totalSupply</text>
+  <text x="400" y="732" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">== 0 ?</text>
+  
+  <!-- Yes Arrow (Left) -->
+  <line x1="280" y1="720" x2="180" y2="720" stroke="#333" stroke-width="2"/>
+  <line x1="180" y1="720" x2="180" y2="810" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="230" y="710" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#28a745" font-weight="bold">是 (首次)</text>
+  
+  <!-- No Arrow (Right) -->
+  <line x1="520" y1="720" x2="620" y2="720" stroke="#333" stroke-width="2"/>
+  <line x1="620" y1="720" x2="620" y2="810" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="570" y="710" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#007bff" font-weight="bold">否 (后续)</text>
+  
+  <!-- First Mint Box -->
+  <rect x="50" y="815" width="260" height="130" rx="8" fill="url(#firstMintGrad)" stroke="#28a745" stroke-width="2" filter="url(#shadow)"/>
+  <text x="180" y="840" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#155724">🌟 首次铸造</text>
+  <text x="180" y="865" text-anchor="middle" font-family="monospace" font-size="10" fill="#155724">liquidity = √(amount0 × amount1)</text>
+  <text x="180" y="885" text-anchor="middle" font-family="monospace" font-size="10" fill="#155724">           - MINIMUM_LIQUIDITY</text>
+  <line x1="70" y1="900" x2="290" y2="900" stroke="#28a745" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="180" y="920" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#155724">🔐 锁定 1000 wei 到零地址</text>
+  <text x="180" y="938" text-anchor="middle" font-family="monospace" font-size="10" fill="#155724">_mint(address(0), 1000)</text>
+  
+  <!-- Later Mint Box -->
+  <rect x="490" y="815" width="260" height="130" rx="8" fill="url(#laterMintGrad)" stroke="#007bff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="620" y="840" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#004085">📈 后续铸造</text>
+  <text x="620" y="870" text-anchor="middle" font-family="monospace" font-size="10" fill="#004085">liquidity = min(</text>
+  <text x="620" y="890" text-anchor="middle" font-family="monospace" font-size="10" fill="#004085">  amount0 × S / reserve0,</text>
+  <text x="620" y="910" text-anchor="middle" font-family="monospace" font-size="10" fill="#004085">  amount1 × S / reserve1</text>
+  <text x="620" y="930" text-anchor="middle" font-family="monospace" font-size="10" fill="#004085">)</text>
+  
+  <!-- Merge Arrows -->
+  <line x1="180" y1="945" x2="180" y2="980" stroke="#333" stroke-width="2"/>
+  <line x1="620" y1="945" x2="620" y2="980" stroke="#333" stroke-width="2"/>
+  <line x1="180" y1="980" x2="620" y2="980" stroke="#333" stroke-width="2"/>
+  <line x1="400" y1="980" x2="400" y2="1010" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Require & Mint -->
+  <rect x="250" y="1015" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1040" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">✅ 验证并铸造 LP Token</text>
+  <text x="400" y="1060" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">require(liquidity > 0)</text>
+  <text x="400" y="1078" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">_mint(to, liquidity)</text>
+  
+  <!-- Arrow 7 -->
+  <line x1="400" y1="1085" x2="400" y2="1115" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Update -->
+  <rect x="250" y="1120" width="300" height="70" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1145" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">🔄 _update() 更新储备量</text>
+  <text x="400" y="1165" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">reserve0 = balance0</text>
+  <text x="400" y="1180" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">更新价格累计器 (TWAP)</text>
+  
+  <!-- Arrow 8 -->
+  <line x1="400" y1="1190" x2="400" y2="1220" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Final Steps -->
+  <rect x="250" y="1225" width="300" height="80" rx="8" fill="url(#processGrad)" stroke="#6c757d" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="1250" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">📝 收尾工作</text>
+  <text x="400" y="1270" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">if (feeOn) kLast = reserve0 × reserve1</text>
+  <text x="400" y="1288" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">emit Mint(sender, amount0, amount1)</text>
+  <text x="400" y="1303" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">unlocked = 1 (解锁)</text>
+  
+  <!-- Arrow 9 -->
+  <line x1="400" y1="1305" x2="400" y2="1335" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- End -->
+  <ellipse cx="400" cy="1360" rx="100" ry="25" fill="#dc3545" filter="url(#shadow)"/>
+  <text x="400" y="1366" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">返回 liquidity</text>
+</svg>
