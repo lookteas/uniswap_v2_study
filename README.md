@@ -130,9 +130,21 @@ v2 periphery仓库地址：https://github.com/Uniswap/v2-periphery
 - [ ] `swapExactTokensForTokens()` 多跳实现
 
 **笔记验证问题**：
-1. 为什么 Library 可以离线计算 Pair 地址？
-2. `amountOutMin` 参数如何保护用户？
-3. A→B→C 三跳交换的 gas 成本大约是多少？
+
+1. 手写离线计算 Pair 地址的完整 Solidity 代码（含排序+CREATE2）  
+2. 若 factory 升级导致 `init_code_hash` 变化，旧 Router 还能算出正确地址吗？  
+3. `amountOutMin`在源码第几行被校验？回滚错误签名是什么？  
+4. deadline 如何缓解 MEV，为何无法完全消除三明治？  
+5. 通缩币场景下 `addLiquidity` 与 `swapExact` 哪个会多扣币？Router 如何兼容？  
+6. 三跳交换比单跳多消耗多少 gas？按 12 gwei、ETH $3800 估算美元值  
+7. `removeLiquidityETHWithPermit` 的 permit 失败时回滚到哪一层？如何调试？  
+8. `Router refundETH()` 为何用 `call{value:amount}("")` 而非 transfer？  
+9. 若 Router 被误转 WETH，用户如何无损提取？考 `unwrapWETH()` 可见性  
+10. UniswapV2 整套合约里哪两处用到 tx.origin？解释设计目的  
+11. 数学证明 `getAmountOut` 公式满足常数积 k 不变，给出推导  
+12. 当分母 `reserveIn*1000+amountIn*997` 大于 2^256-1 时 Solidity 0.8 行为如何？  
+14. 前端倒序 path 数组但 amountIn 不变，Router 会回滚吗？回滚点行号  
+15. 若给 Router 加“单区块最大价格滑点”保护，你会改哪一段？简述实现与 gas 代价
 
 ---
 
@@ -169,6 +181,7 @@ v2 periphery仓库地址：https://github.com/Uniswap/v2-periphery
 | 1h   | 总结整理学习笔记，输出完整理解文档                           | 全部                                                         |
 
 **最终验证清单**：
+
 - [ ] 能完整描述 addLiquidity 的调用链
 - [ ] 能完整描述 swap 的调用链
 - [ ] 能手算 LP Token 数量
