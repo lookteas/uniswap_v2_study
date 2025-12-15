@@ -1,0 +1,479 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1700">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="processGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="decisionGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#11998e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38ef7d;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="errorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#eb3349;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f45c43;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="internalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a24;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 阴影效果 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- 箭头标记 -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#38ef7d"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f45c43"/>
+    </marker>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="1700" fill="#f8fafc"/>
+  
+  <!-- 标题区域 -->
+  <rect x="50" y="20" width="1100" height="80" rx="15" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="600" y="55" text-anchor="middle" fill="white" font-size="28" font-weight="bold" font-family="Arial, sans-serif">
+    UniswapV2 addLiquidity() 完整流程图
+  </text>
+  <text x="600" y="82" text-anchor="middle" fill="white" font-size="14" font-family="Arial, sans-serif">
+    包含滑点保护机制 | 源码: UniswapV2Router02.sol 第 61-76 行 | 带执行序号
+  </text>
+  
+  <!-- ==================== Step 1: 用户调用入口 ==================== -->
+  <g transform="translate(400, 130)">
+    <!-- 序号圆圈 -->
+    <circle cx="20" cy="30" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="20" y="36" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">1</text>
+    
+    <!-- 开始节点 -->
+    <ellipse cx="220" cy="30" rx="180" ry="35" fill="url(#processGrad)" filter="url(#shadow)"/>
+    <text x="220" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+      用户调用 addLiquidity()
+    </text>
+    <text x="220" y="42" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      传入: tokenA, tokenB, amountADesired, amountBDesired
+    </text>
+  </g>
+  
+  <!-- 参数说明框 -->
+  <g transform="translate(820, 115)">
+    <rect x="0" y="0" width="320" height="100" rx="8" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+    <text x="160" y="20" text-anchor="middle" fill="#856404" font-size="12" font-weight="bold" font-family="Arial, sans-serif">📋 关键参数说明</text>
+    <text x="10" y="40" fill="#856404" font-size="11" font-family="Arial, sans-serif">• amountAMin / amountBMin: 最小接受量(滑点下限)</text>
+    <text x="10" y="57" fill="#856404" font-size="11" font-family="Arial, sans-serif">• deadline: 交易截止时间戳(防MEV延迟)</text>
+    <text x="10" y="74" fill="#856404" font-size="11" font-family="Arial, sans-serif">• to: LP Token 接收地址</text>
+    <text x="10" y="91" fill="#856404" font-size="11" font-family="Arial, sans-serif">• amountDesired: 期望存入量(滑点上限)</text>
+  </g>
+  
+  <!-- 箭头: 用户调用 → deadline检查 -->
+  <line x1="620" y1="195" x2="620" y2="230" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== Step 2: deadline 检查 ==================== -->
+  <g transform="translate(400, 240)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="50" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="50" y="56" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">2</text>
+    
+    <polygon points="220,0 370,50 220,100 70,50" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="220" y="42" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      ensure(deadline)
+    </text>
+    <text x="220" y="58" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      deadline ≥ block.timestamp ?
+    </text>
+  </g>
+  
+  <!-- deadline 检查注释 -->
+  <g transform="translate(50, 250)">
+    <rect x="0" y="0" width="280" height="70" rx="8" fill="#e8f4fd" stroke="#0288d1" stroke-width="1.5"/>
+    <text x="140" y="18" text-anchor="middle" fill="#01579b" font-size="11" font-weight="bold" font-family="Arial, sans-serif">🛡️ 第一道防线: 时间保护</text>
+    <text x="10" y="35" fill="#01579b" font-size="10" font-family="Arial, sans-serif">• 防止交易被矿工无限延迟执行</text>
+    <text x="10" y="50" fill="#01579b" font-size="10" font-family="Arial, sans-serif">• 典型设置: 当前时间 + 20分钟</text>
+    <text x="10" y="65" fill="#01579b" font-size="10" font-family="Arial, sans-serif">• 源码位置: Router02.sol 第 18-21 行</text>
+  </g>
+  
+  <!-- deadline 失败路径 -->
+  <line x1="770" y1="290" x2="870" y2="290" stroke="#f45c43" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+  <text x="820" y="280" text-anchor="middle" fill="#f45c43" font-size="12" font-weight="bold" font-family="Arial, sans-serif">否</text>
+  
+  <g transform="translate(880, 260)">
+    <rect x="0" y="0" width="200" height="60" rx="10" fill="url(#errorGrad)" filter="url(#shadow)"/>
+    <text x="100" y="25" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">❌ 交易回滚</text>
+    <text x="100" y="45" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">'UniswapV2Router: EXPIRED'</text>
+  </g>
+  
+  <!-- deadline 成功路径 -->
+  <line x1="620" y1="340" x2="620" y2="380" stroke="#38ef7d" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="640" y="365" fill="#38ef7d" font-size="12" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <!-- ==================== Step 3: 调用 _addLiquidity ==================== -->
+  <g transform="translate(400, 390)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="25" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="31" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">3</text>
+    
+    <rect x="20" y="0" width="400" height="50" rx="10" fill="url(#internalGrad)" filter="url(#shadow)"/>
+    <text x="220" y="22" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+      调用内部函数 _addLiquidity()
+    </text>
+    <text x="220" y="40" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      计算最优存入数量 | 源码: 第 33-60 行
+    </text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="620" y1="440" x2="620" y2="480" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== Step 4: Pair 存在检查 ==================== -->
+  <g transform="translate(400, 490)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="69" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="50" y="73" text-anchor="middle" fill="white" font-size="17" font-weight="bold" font-family="Arial, sans-serif">4</text>
+    
+    <polygon points="220,0 370,50 220,100 70,50" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="220" y="42" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      getPair(tokenA, tokenB)
+    </text>
+    <text x="220" y="58" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      == address(0) ?
+    </text>
+  </g>
+  
+  <!-- Pair 不存在 - 创建 (Step 4a) -->
+  <line x1="470" y1="540" x2="300" y2="540" stroke="#555" stroke-width="2"/>
+  <line x1="300" y1="540" x2="300" y2="580" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="380" y="530" fill="#555" font-size="12" font-weight="bold" font-family="Arial, sans-serif">是(Pair不存在)</text>
+  
+  <g transform="translate(130, 590)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="25" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="30" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">4a</text>
+    
+    <rect x="20" y="0" width="300" height="50" rx="10" fill="url(#processGrad)" filter="url(#shadow)"/>
+    <text x="170" y="22" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      Factory.createPair(tokenA, tokenB)
+    </text>
+    <text x="170" y="40" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">
+      使用 CREATE2 部署新的 Pair 合约
+    </text>
+  </g>
+  
+  <!-- 创建后连接到获取储备 -->
+  <line x1="300" y1="640" x2="300" y2="680" stroke="#555" stroke-width="2"/>
+  <line x1="300" y1="680" x2="620" y2="680" stroke="#555" stroke-width="2"/>
+  <line x1="620" y1="680" x2="620" y2="720" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Pair 存在 -->
+  <line x1="770" y1="540" x2="870" y2="540" stroke="#555" stroke-width="2"/>
+  <line x1="870" y1="540" x2="870" y2="680" stroke="#555" stroke-width="2"/>
+  <line x1="870" y1="680" x2="620" y2="680" stroke="#555" stroke-width="2"/>
+  <text x="820" y="530" fill="#555" font-size="12" font-weight="bold" font-family="Arial, sans-serif">否(已存在)</text>
+  
+  <!-- ==================== Step 5: 获取储备量 ==================== -->
+  <g transform="translate(400, 730)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="25" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="31" text-anchor="middle" fill="white" font-size="17" font-weight="bold" font-family="Arial, sans-serif">5</text>
+    
+    <rect x="20" y="0" width="400" height="50" rx="10" fill="url(#processGrad)" filter="url(#shadow)"/>
+    <text x="220" y="22" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      getReserves(factory, tokenA, tokenB)
+    </text>
+    <text x="220" y="40" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      获取当前池子储备量 reserveA, reserveB
+    </text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="620" y1="780" x2="620" y2="820" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== Step 6: 储备量判断 ==================== -->
+  <g transform="translate(400, 830)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="73" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="50" y="77" text-anchor="middle" fill="white" font-size="17" font-weight="bold" font-family="Arial, sans-serif">6</text>
+    
+    <polygon points="220,0 370,50 220,100 70,50" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="220" y="42" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      reserveA == 0 &amp;&amp;
+    </text>
+    <text x="220" y="58" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      reserveB == 0 ?
+    </text>
+  </g>
+  
+  <!-- 首次添加流动性 (Step 6a) -->
+  <line x1="470" y1="880" x2="220" y2="880" stroke="#38ef7d" stroke-width="2"/>
+  <line x1="220" y1="880" x2="220" y2="940" stroke="#38ef7d" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="340" y="870" fill="#38ef7d" font-size="12" font-weight="bold" font-family="Arial, sans-serif">是(首次添加)</text>
+  
+  <g transform="translate(50, 950)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="35" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="40" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">6a</text>
+    
+    <rect x="20" y="0" width="300" height="70" rx="10" fill="url(#successGrad)" filter="url(#shadow)"/>
+    <text x="170" y="22" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      ✅ 直接使用期望值
+    </text>
+    <text x="170" y="42" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      amountA = amountADesired
+    </text>
+    <text x="170" y="58" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">
+      amountB = amountBDesired
+    </text>
+  </g>
+  
+  <!-- 首次添加注释 -->
+  <g transform="translate(50, 1030)">
+    <rect x="0" y="0" width="320" height="50" rx="8" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+    <text x="160" y="18" text-anchor="middle" fill="#155724" font-size="10" font-weight="bold" font-family="Arial, sans-serif">💡 首次添加无滑点问题</text>
+    <text x="10" y="35" fill="#155724" font-size="9" font-family="Arial, sans-serif">用户自定义初始价格比例，无需保护</text>
+    <text x="10" y="47" fill="#155724" font-size="9" font-family="Arial, sans-serif">注意: 首次LP会锁定 MINIMUM_LIQUIDITY (1000)</text>
+  </g>
+  
+  <!-- 非首次添加 (Step 7) -->
+  <line x1="770" y1="880" x2="970" y2="880" stroke="#555" stroke-width="2"/>
+  <line x1="970" y1="880" x2="970" y2="940" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="870" y="870" fill="#555" font-size="12" font-weight="bold" font-family="Arial, sans-serif">否(已有流动性)</text>
+  
+  <!-- ==================== Step 7: 计算最优B数量 ==================== -->
+  <g transform="translate(750, 950)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="30" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="36" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">7</text>
+    
+    <rect x="20" y="0" width="350" height="60" rx="10" fill="url(#processGrad)" filter="url(#shadow)"/>
+    <text x="195" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      计算 amountBOptimal
+    </text>
+    <text x="195" y="40" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">
+      = quote(amountADesired, reserveA, reserveB)
+    </text>
+    <text x="195" y="55" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">
+      = amountADesired × reserveB / reserveA
+    </text>
+  </g>
+  
+  <!-- quote 公式注释 -->
+  <g transform="translate(770, 1020)">
+    <rect x="0" y="0" width="350" height="45" rx="8" fill="#e8f4fd" stroke="#0288d1" stroke-width="1.5"/>
+    <text x="175" y="16" text-anchor="middle" fill="#01579b" font-size="10" font-weight="bold" font-family="Arial, sans-serif">📐 quote() 函数说明</text>
+    <text x="10" y="32" fill="#01579b" font-size="9" font-family="Arial, sans-serif">按当前价格比例计算等价数量，无手续费扣除</text>
+    <text x="10" y="43" fill="#01579b" font-size="9" font-family="Arial, sans-serif">源码: UniswapV2Library.sol 第 36-40 行</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="945" y1="1065" x2="945" y2="1100" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== Step 8: BOptimal 比较 ==================== -->
+  <g transform="translate(725, 1110)">
+    <!-- 序号圆圈 -->
+    <circle cx="70" cy="30" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="70" y="36" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">8</text>
+    
+    <polygon points="220,0 370,50 220,100 90,50" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="230" y="42" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      amountBOptimal ≤
+    </text>
+    <text x="230" y="58" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">
+      amountBDesired ?
+    </text>
+  </g>
+  
+  <!-- BOptimal <= BDesired (用户愿意接受) - Step 9a -->
+  <line x1="815" y1="1160" x2="520" y2="1160" stroke="#38ef7d" stroke-width="2"/>
+  <line x1="520" y1="1160" x2="520" y2="1210" stroke="#38ef7d" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="660" y="1150" fill="#38ef7d" font-size="11" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <!-- 滑点检查 B (Step 9a) -->
+  <g transform="translate(300, 1220)">
+    <!-- 序号圆圈 -->
+    <circle cx="80" cy="27" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="80" y="33" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">9a</text>
+    
+    <polygon points="220,0 340,45 220,90 100,45" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="220" y="38" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">
+      amountBOptimal ≥
+    </text>
+    <text x="220" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">
+      amountBMin ?
+    </text>
+  </g>
+  
+  <!-- 滑点检查 B 注释 -->
+  <g transform="translate(50, 1220)">
+    <rect x="0" y="0" width="220" height="70" rx="8" fill="#fff3cd" stroke="#ffc107" stroke-width="1.5"/>
+    <text x="110" y="18" text-anchor="middle" fill="#856404" font-size="10" font-weight="bold" font-family="Arial, sans-serif">🛡️ 第二道防线: 滑点保护B</text>
+    <text x="10" y="35" fill="#856404" font-size="9" font-family="Arial, sans-serif">确保实际存入的 B 数量</text>
+    <text x="10" y="48" fill="#856404" font-size="9" font-family="Arial, sans-serif">不低于用户设定的最小值</text>
+    <text x="10" y="61" fill="#856404" font-size="9" font-family="Arial, sans-serif">源码: 第 51 行</text>
+  </g>
+  
+  <!-- B 滑点检查失败 -->
+  <line x1="400" y1="1265" x2="300" y2="1265" stroke="#f45c43" stroke-width="2"/>
+  <line x1="300" y1="1265" x2="300" y2="1320" stroke="#f45c43" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+  <text x="340" y="1290" fill="#f45c43" font-size="10" font-weight="bold" font-family="Arial, sans-serif">否</text>
+  
+  <g transform="translate(150, 1330)">
+    <rect x="0" y="0" width="300" height="50" rx="10" fill="url(#errorGrad)" filter="url(#shadow)"/>
+    <text x="150" y="22" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">❌ 交易回滚</text>
+    <text x="150" y="40" text-anchor="middle" fill="white" font-size="9" font-family="Arial, sans-serif">'UniswapV2Router: INSUFFICIENT_B_AMOUNT'</text>
+  </g>
+  
+  <!-- B 滑点检查成功 - Step 10a -->
+  <line x1="640" y1="1265" x2="720" y2="1265" stroke="#38ef7d" stroke-width="2"/>
+  <text x="680" y="1255" fill="#38ef7d" font-size="10" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <g transform="translate(730, 1235)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="30" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="35" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">10a</text>
+    
+    <rect x="20" y="0" width="200" height="60" rx="10" fill="url(#successGrad)" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">✅ 方案一确定</text>
+    <text x="120" y="40" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">amountA = amountADesired</text>
+    <text x="120" y="55" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">amountB = amountBOptimal</text>
+  </g>
+  
+  <!-- BOptimal > BDesired (需要反向计算) - Step 9b -->
+  <line x1="1095" y1="1160" x2="1140" y2="1160" stroke="#555" stroke-width="2"/>
+  <line x1="1140" y1="1160" x2="1140" y2="1210" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="1120" y="1150" fill="#555" font-size="11" font-weight="bold" font-family="Arial, sans-serif">否</text>
+  
+  <!-- 计算 AOptimal (Step 9b) -->
+  <g transform="translate(990, 1220)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="27" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="32" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">9b</text>
+    
+    <rect x="20" y="0" width="180" height="55" rx="10" fill="url(#processGrad)" filter="url(#shadow)"/>
+    <text x="110" y="18" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="Arial, sans-serif">计算 amountAOptimal</text>
+    <text x="110" y="35" text-anchor="middle" fill="white" font-size="9" font-family="Arial, sans-serif">= quote(amountBDesired,</text>
+    <text x="110" y="48" text-anchor="middle" fill="white" font-size="9" font-family="Arial, sans-serif">reserveB, reserveA)</text>
+  </g>
+  
+  <!-- 箭头到 A 滑点检查 -->
+  <line x1="1100" y1="1275" x2="1100" y2="1320" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- 滑点检查 A (Step 10b) -->
+  <g transform="translate(950, 1330)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="20" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="50" y="27" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">10b</text>
+    
+    <polygon points="150,0 250,40 150,80 70,40" fill="url(#decisionGrad)" filter="url(#shadow)"/>
+    <text x="160" y="35" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="Arial, sans-serif">
+      amountAOptimal ≥
+    </text>
+    <text x="160" y="50" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="Arial, sans-serif">
+      amountAMin ?
+    </text>
+  </g>
+  
+  <!-- A 滑点检查失败 -->
+  <line x1="1100" y1="1410" x2="1100" y2="1550" stroke="#f45c43" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+  <text x="1110" y="1500" fill="#f45c43" font-size="17" font-weight="bold" font-family="Arial, sans-serif">否</text>
+  
+  <g transform="translate(1000, 1550)">
+    <rect x="0" y="0" width="170" height="45" rx="10" fill="url(#errorGrad)" filter="url(#shadow)"/>
+    <text x="79" y="20" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif">❌ 交易回滚</text>
+    <text x="79" y="40" text-anchor="middle" fill="white" font-size="11" font-family="Arial, sans-serif">INSUFFICIENT_A_AMOUNT</text>
+  </g>
+  
+  <!-- A 滑点检查成功 - Step 11b -->
+  <line x1="1020" y1="1370" x2="970" y2="1370" stroke="#38ef7d" stroke-width="2"/>
+  <line x1="970" y1="1370" x2="970" y2="1420" stroke="#38ef7d" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="990" y="1400" fill="#38ef7d" font-size="10" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <g transform="translate(820, 1430)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="27" r="16" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="32" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">11b</text>
+    
+    <rect x="20" y="0" width="200" height="55" rx="10" fill="url(#successGrad)" filter="url(#shadow)"/>
+    <text x="120" y="18" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">✅ 方案二确定</text>
+    <text x="120" y="35" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">amountA = amountAOptimal</text>
+    <text x="120" y="50" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">amountB = amountBDesired</text>
+  </g>
+  
+  <!-- ==================== 汇合到执行转账 ==================== -->
+  <!-- 从首次添加 -->
+  <line x1="220" y1="1080" x2="220" y2="1530" stroke="#555" stroke-width="2"/>
+  <line x1="220" y1="1530" x2="570" y2="1530" stroke="#555" stroke-width="2"/>
+  
+  <!-- 从方案一 -->
+  <line x1="850" y1="1295" x2="850" y2="1340" stroke="#555" stroke-width="2"/>
+  <line x1="850" y1="1340" x2="620" y2="1340" stroke="#555" stroke-width="2"/>
+  <line x1="620" y1="1340" x2="620" y2="1530" stroke="#555" stroke-width="2"/>
+  
+  <!-- 从方案二 -->
+  <line x1="940" y1="1485" x2="940" y2="1530" stroke="#555" stroke-width="2"/>
+  <line x1="940" y1="1530" x2="670" y2="1530" stroke="#555" stroke-width="2"/>
+  
+  <!-- 汇合点 -->
+  <circle cx="620" cy="1530" r="8" fill="#555"/>
+  
+  <!-- 箭头到最终执行 -->
+  <line x1="620" y1="1538" x2="620" y2="1570" stroke="#555" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- ==================== Step 11/12: 最终执行步骤 ==================== -->
+  <g transform="translate(250, 1580)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="25" r="18" fill="url(#stepGrad)" filter="url(#shadow)"/>
+    <text x="0" y="31" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">11</text>
+    
+    <rect x="20" y="0" width="680" height="50" rx="10" fill="url(#successGrad)" filter="url(#shadow)"/>
+    <text x="360" y="20" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      🎯 执行转账与铸造 LP Token (返回 addLiquidity 主函数)
+    </text>
+    <text x="360" y="40" text-anchor="middle" fill="white" font-size="10" font-family="Arial, sans-serif">
+      pairFor() → safeTransferFrom(tokenA/B → Pair) → Pair.mint(to) → 返回 (amountA, amountB, liquidity)
+    </text>
+  </g>
+  
+  <!-- 最终步骤详细说明 -->
+  <g transform="translate(250, 1640)">
+    <rect x="0" y="0" width="700" height="50" rx="8" fill="#e8f4fd" stroke="#0288d1" stroke-width="1.5"/>
+    <text x="350" y="18" text-anchor="middle" fill="#01579b" font-size="11" font-weight="bold" font-family="Arial, sans-serif">📍 最终执行详情 (源码: 第 72-75 行)</text>
+    <text x="10" y="38" fill="#01579b" font-size="10" font-family="Arial, sans-serif">
+      ① pairFor计算地址 → ② safeTransferFrom转入tokenA → ③ safeTransferFrom转入tokenB → ④ Pair.mint铸造LP → ⑤ 返回结果
+    </text>
+  </g>
+  
+  <!-- 图例 -->
+  <g transform="translate(20, 1580)">
+    <rect x="0" y="0" width="200" height="90" rx="5" fill="#f0f0f0" stroke="#ccc"/>
+    <text x="90" y="18" text-anchor="middle" fill="#333" font-size="11" font-weight="bold" font-family="Arial, sans-serif">图例说明</text>
+    <circle cx="20" cy="38" r="10" fill="url(#stepGrad)"/>
+    <text x="40" y="42" fill="#333" font-size="10" font-family="Arial, sans-serif">执行序号</text>
+    <rect x="100" y="30" width="15" height="15" fill="url(#decisionGrad)"/>
+    <text x="120" y="42" fill="#333" font-size="10" font-family="Arial, sans-serif">判断</text>
+    <rect x="10" y="55" width="15" height="15" fill="url(#processGrad)"/>
+    <text x="30" y="67" fill="#333" font-size="10" font-family="Arial, sans-serif">处理</text>
+    <rect x="80" y="55" width="15" height="15" fill="url(#successGrad)"/>
+    <text x="100" y="67" fill="#333" font-size="10" font-family="Arial, sans-serif">成功</text>
+    <rect x="140" y="55" width="15" height="15" fill="url(#errorGrad)"/>
+    <text x="160" y="67" fill="#333" font-size="10" font-family="Arial, sans-serif">错误</text>
+  </g>
+</svg>

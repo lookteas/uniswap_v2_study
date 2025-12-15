@@ -1,0 +1,542 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2000">
+  <defs>
+    <!-- 浅色科技风格渐变 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e8f4f8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f4ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7b2ff7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f107a3;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="processGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00c6ff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#0072ff;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="decisionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f857a6;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#ff5858;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#11998e;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#38ef7d;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="errorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff416c;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#ff4b2b;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="loopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7f00ff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#e100ff;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff416c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff4b2b;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="dataGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f7971e;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#ffd200;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+    
+    <!-- 箭头标记 -->
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0072ff"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#11998e"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff4b2b"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7f00ff"/>
+    </marker>
+    
+    <!-- 网格背景图案 -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#c0d0e0" stroke-width="0.5" opacity="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- 浅色科技背景 -->
+  <rect width="1400" height="2000" fill="url(#bgGrad)"/>
+  <rect width="1400" height="2000" fill="url(#grid)"/>
+  
+  <!-- 装饰性圆环 -->
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+  <circle cx="1300" cy="1900" r="120" fill="none" stroke="#f107a3" stroke-width="1" opacity="0.3"/>
+  <circle cx="1350" cy="200" r="60" fill="none" stroke="#7b2ff7" stroke-width="1" opacity="0.2"/>
+  
+  <!-- ==================== 标题区域 ==================== -->
+  <rect x="100" y="30" width="1200" height="100" rx="20" fill="rgba(255,255,255,0.9)" stroke="url(#headerGrad)" stroke-width="2" filter="url(#shadow)"/>
+  <text x="700" y="70" text-anchor="middle" fill="url(#headerGrad)" font-size="32" font-weight="bold" font-family="Arial, sans-serif" filter="url(#glow)">
+    swapExactTokensForTokens() 多跳交换流程
+  </text>
+  <text x="700" y="105" text-anchor="middle" fill="#5a6a7a" font-size="14" font-family="Arial, sans-serif">
+    源码: UniswapV2Router02.sol 第 224-237 行 | 内部函数 _swap() 第 212-223 行
+  </text>
+  
+  <!-- ==================== Step 1: 用户调用入口 ==================== -->
+  <g transform="translate(450, 160)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">1</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="80" rx="15" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="30" text-anchor="middle" fill="#0072ff" font-size="16" font-weight="bold" font-family="Arial, sans-serif">
+      用户调用 swapExactTokensForTokens()
+    </text>
+    <text x="255" y="52" text-anchor="middle" fill="#5a6a7a" font-size="12" font-family="Arial, sans-serif">
+      参数: amountIn, amountOutMin, path[], to, deadline
+    </text>
+    <text x="255" y="70" text-anchor="middle" fill="#11998e" font-size="11" font-family="Arial, sans-serif">
+      用户指定固定输入量，期望获得最少输出量
+    </text>
+  </g>
+  
+  <!-- 参数说明框 -->
+  <g transform="translate(950, 160)">
+    <rect x="0" y="0" width="350" height="100" rx="10" fill="rgba(255,255,255,0.9)" stroke="#f7971e" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="175" y="22" text-anchor="middle" fill="#e67e00" font-size="13" font-weight="bold" font-family="Arial, sans-serif">📋 参数说明</text>
+    <text x="15" y="42" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• amountIn: 固定输入的代币数量</text>
+    <text x="15" y="58" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• amountOutMin: 最少接受的输出量 (滑点保护)</text>
+    <text x="15" y="74" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• path[]: 交换路径数组 [tokenIn, ..., tokenOut]</text>
+    <text x="15" y="90" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• deadline: 交易截止时间戳</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="700" y1="240" x2="700" y2="290" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 2: deadline 检查 ==================== -->
+  <g transform="translate(450, 300)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="50" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="50" y="57" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">2</text>
+    
+    <!-- 菱形判断 -->
+    <polygon points="250,0 400,50 250,100 100,50" fill="rgba(255,255,255,0.95)" stroke="#f857a6" stroke-width="2" filter="url(#shadow)"/>
+    <text x="250" y="45" text-anchor="middle" fill="#e91e63" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+      ensure(deadline)
+    </text>
+    <text x="250" y="63" text-anchor="middle" fill="#5a6a7a" font-size="11" font-family="Arial, sans-serif">
+      deadline ≥ block.timestamp ?
+    </text>
+  </g>
+  
+  <!-- deadline 失败 -->
+  <line x1="850" y1="350" x2="950" y2="350" stroke="#ff4b2b" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="900" y="340" text-anchor="middle" fill="#ff4b2b" font-size="12" font-weight="bold" font-family="Arial, sans-serif">否 ✗</text>
+  
+  <g transform="translate(960, 320)">
+    <rect x="0" y="0" width="200" height="60" rx="10" fill="rgba(255,255,255,0.95)" stroke="#ff4b2b" stroke-width="2" filter="url(#shadow)"/>
+    <text x="100" y="25" text-anchor="middle" fill="#ff4b2b" font-size="12" font-weight="bold" font-family="Arial, sans-serif">❌ REVERT</text>
+    <text x="100" y="45" text-anchor="middle" fill="#5a6a7a" font-size="10" font-family="Arial, sans-serif">'UniswapV2Router: EXPIRED'</text>
+  </g>
+  
+  <!-- deadline 成功 -->
+  <line x1="700" y1="400" x2="700" y2="450" stroke="#11998e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="720" y="430" fill="#11998e" font-size="12" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <!-- ==================== Step 3: 计算 amounts 数组 ==================== -->
+  <g transform="translate(400, 460)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="45" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="52" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">3</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="540" height="90" rx="15" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="300" y="28" text-anchor="middle" fill="#0072ff" font-size="15" font-weight="bold" font-family="Arial, sans-serif">
+      计算每一跳的输入输出量
+    </text>
+    <text x="300" y="50" text-anchor="middle" fill="#11998e" font-size="12" font-family="Arial, sans-serif">
+      amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path)
+    </text>
+    <text x="300" y="72" text-anchor="middle" fill="#5a6a7a" font-size="11" font-family="Arial, sans-serif">
+      循环调用 getAmountOut() 计算每跳输出 | 源码: Library 第 62-70 行
+    </text>
+  </g>
+  
+  <!-- amounts 数组示例 -->
+  <g transform="translate(100, 470)">
+    <rect x="0" y="0" width="280" height="80" rx="10" fill="rgba(255,255,255,0.9)" stroke="#7f00ff" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="140" y="20" text-anchor="middle" fill="#7f00ff" font-size="11" font-weight="bold" font-family="Arial, sans-serif">💡 amounts[] 数组示例 (3跳)</text>
+    <text x="15" y="40" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">path = [A, B, C, D]</text>
+    <text x="15" y="55" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">amounts = [1000, 980, 960, 940]</text>
+    <text x="15" y="70" fill="#718096" font-size="9" font-family="Arial, sans-serif">每跳扣除 0.3% 手续费后的输出量</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="700" y1="550" x2="700" y2="600" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 4: 滑点检查 ==================== -->
+  <g transform="translate(450, 610)">
+    <!-- 序号圆圈 -->
+    <circle cx="50" cy="50" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="50" y="57" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">4</text>
+    
+    <!-- 菱形判断 -->
+    <polygon points="250,0 420,50 250,100 80,50" fill="rgba(255,255,255,0.95)" stroke="#f857a6" stroke-width="2" filter="url(#shadow)"/>
+    <text x="250" y="40" text-anchor="middle" fill="#e91e63" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      amounts[last] ≥
+    </text>
+    <text x="250" y="58" text-anchor="middle" fill="#e91e63" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      amountOutMin ?
+    </text>
+  </g>
+  
+  <!-- 滑点检查注释 -->
+  <g transform="translate(100, 610)">
+    <rect x="0" y="0" width="280" height="70" rx="10" fill="rgba(255,255,255,0.9)" stroke="#f7971e" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="140" y="20" text-anchor="middle" fill="#e67e00" font-size="11" font-weight="bold" font-family="Arial, sans-serif">🛡️ 滑点保护检查</text>
+    <text x="15" y="40" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">确保最终输出 ≥ 用户设定的最小值</text>
+    <text x="15" y="55" fill="#718096" font-size="9" font-family="Arial, sans-serif">源码: 第 232 行</text>
+    <text x="15" y="68" fill="#11998e" font-size="9" font-family="Arial, sans-serif">防止价格剧烈波动导致损失</text>
+  </g>
+  
+  <!-- 滑点检查失败 -->
+  <line x1="870" y1="660" x2="970" y2="660" stroke="#ff4b2b" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="920" y="650" text-anchor="middle" fill="#ff4b2b" font-size="12" font-weight="bold" font-family="Arial, sans-serif">否 ✗</text>
+  
+  <g transform="translate(980, 630)">
+    <rect x="0" y="0" width="280" height="60" rx="10" fill="rgba(255,255,255,0.95)" stroke="#ff4b2b" stroke-width="2" filter="url(#shadow)"/>
+    <text x="140" y="25" text-anchor="middle" fill="#ff4b2b" font-size="12" font-weight="bold" font-family="Arial, sans-serif">❌ REVERT</text>
+    <text x="140" y="45" text-anchor="middle" fill="#5a6a7a" font-size="9" font-family="Arial, sans-serif">'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT'</text>
+  </g>
+  
+  <!-- 滑点检查成功 -->
+  <line x1="700" y1="710" x2="700" y2="760" stroke="#11998e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="720" y="740" fill="#11998e" font-size="12" font-weight="bold" font-family="Arial, sans-serif">是 ✓</text>
+  
+  <!-- ==================== Step 5: 转账到第一个 Pair ==================== -->
+  <g transform="translate(400, 770)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="45" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="52" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">5</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="540" height="90" rx="15" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="300" y="28" text-anchor="middle" fill="#0072ff" font-size="15" font-weight="bold" font-family="Arial, sans-serif">
+      将输入代币转入第一个 Pair
+    </text>
+    <text x="300" y="50" text-anchor="middle" fill="#11998e" font-size="11" font-family="Arial, sans-serif">
+      TransferHelper.safeTransferFrom(path[0], msg.sender, pair, amounts[0])
+    </text>
+    <text x="300" y="72" text-anchor="middle" fill="#5a6a7a" font-size="11" font-family="Arial, sans-serif">
+      pair = pairFor(factory, path[0], path[1]) | 源码: 第 233-235 行
+    </text>
+  </g>
+  
+  <!-- 转账流程图示 -->
+  <g transform="translate(100, 780)">
+    <rect x="0" y="0" width="280" height="70" rx="10" fill="rgba(255,255,255,0.9)" stroke="#11998e" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="140" y="20" text-anchor="middle" fill="#11998e" font-size="11" font-weight="bold" font-family="Arial, sans-serif">📤 代币转账流向</text>
+    <text x="15" y="42" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">User → Pair(path[0], path[1])</text>
+    <text x="15" y="58" fill="#718096" font-size="9" font-family="Arial, sans-serif">使用 pairFor() 离线计算 Pair 地址</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="700" y1="860" x2="700" y2="910" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 6: 调用 _swap 开始循环 ==================== -->
+  <g transform="translate(400, 920)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">6</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="540" height="80" rx="15" fill="rgba(255,255,255,0.95)" stroke="#7f00ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="300" y="28" text-anchor="middle" fill="#7f00ff" font-size="15" font-weight="bold" font-family="Arial, sans-serif">
+      调用内部函数 _swap() 开始多跳循环
+    </text>
+    <text x="300" y="50" text-anchor="middle" fill="#11998e" font-size="12" font-family="Arial, sans-serif">
+      _swap(amounts, path, to)
+    </text>
+    <text x="300" y="70" text-anchor="middle" fill="#5a6a7a" font-size="11" font-family="Arial, sans-serif">
+      源码: 第 212-223 行 | 循环次数 = path.length - 1
+    </text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="700" y1="1000" x2="700" y2="1050" stroke="#7f00ff" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  
+  <!-- ==================== 循环区域开始 ==================== -->
+  <rect x="150" y="1060" width="1100" height="620" rx="20" fill="rgba(127,0,255,0.05)" stroke="#7f00ff" stroke-width="2" stroke-dasharray="10,5"/>
+  <text x="700" y="1090" text-anchor="middle" fill="#7f00ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    🔄 FOR 循环: i = 0; i &lt; path.length - 1; i++
+  </text>
+  
+  <!-- ==================== Step 7: 获取当前跳的代币对 ==================== -->
+  <g transform="translate(200, 1110)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="35" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="42" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">7</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="70" rx="12" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="25" text-anchor="middle" fill="#0072ff" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      获取当前跳的输入输出代币
+    </text>
+    <text x="255" y="45" text-anchor="middle" fill="#11998e" font-size="11" font-family="Arial, sans-serif">
+      (input, output) = (path[i], path[i + 1])
+    </text>
+    <text x="255" y="62" text-anchor="middle" fill="#718096" font-size="10" font-family="Arial, sans-serif">
+      源码: 第 214 行
+    </text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="455" y1="1180" x2="455" y2="1210" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 8: 排序确定 token0 ==================== -->
+  <g transform="translate(200, 1220)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="35" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="42" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">8</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="70" rx="12" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="25" text-anchor="middle" fill="#0072ff" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      排序确定 token0 (地址较小者)
+    </text>
+    <text x="255" y="45" text-anchor="middle" fill="#11998e" font-size="11" font-family="Arial, sans-serif">
+      (token0, ) = UniswapV2Library.sortTokens(input, output)
+    </text>
+    <text x="255" y="62" text-anchor="middle" fill="#718096" font-size="10" font-family="Arial, sans-serif">
+      源码: 第 215 行 | 用于确定 amount0Out vs amount1Out
+    </text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="455" y1="1290" x2="455" y2="1320" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 9: 确定输出参数 ==================== -->
+  <g transform="translate(200, 1330)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">9</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="80" rx="12" fill="rgba(255,255,255,0.95)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="22" text-anchor="middle" fill="#0072ff" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      确定 swap 输出参数
+    </text>
+    <text x="255" y="42" text-anchor="middle" fill="#11998e" font-size="10" font-family="Arial, sans-serif">
+      amountOut = amounts[i + 1]
+    </text>
+    <text x="255" y="58" text-anchor="middle" fill="#11998e" font-size="10" font-family="Arial, sans-serif">
+      (amount0Out, amount1Out) = input == token0 ? (0, amountOut) : (amountOut, 0)
+    </text>
+    <text x="255" y="74" text-anchor="middle" fill="#718096" font-size="9" font-family="Arial, sans-serif">
+      源码: 第 216-217 行 | 只有一个方向有输出
+    </text>
+  </g>
+  
+  <!-- 右侧说明框 -->
+  <g transform="translate(720, 1150)">
+    <rect x="0" y="0" width="480" height="180" rx="12" fill="rgba(255,255,255,0.9)" stroke="#f7971e" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="240" y="25" text-anchor="middle" fill="#e67e00" font-size="13" font-weight="bold" font-family="Arial, sans-serif">💡 amount0Out / amount1Out 逻辑说明</text>
+    <text x="20" y="50" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">Pair 合约中 token0 &lt; token1 (地址排序)</text>
+    <text x="20" y="72" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• 如果 input == token0: 输入 token0，输出 token1</text>
+    <text x="40" y="90" fill="#718096" font-size="10" font-family="Arial, sans-serif">→ amount0Out = 0, amount1Out = amountOut</text>
+    <text x="20" y="112" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• 如果 input == token1: 输入 token1，输出 token0</text>
+    <text x="40" y="130" fill="#718096" font-size="10" font-family="Arial, sans-serif">→ amount0Out = amountOut, amount1Out = 0</text>
+    <text x="20" y="155" fill="#11998e" font-size="10" font-family="Arial, sans-serif">⚠️ Pair.swap() 需要知道输出哪个代币及数量</text>
+    <text x="20" y="172" fill="#718096" font-size="9" font-family="Arial, sans-serif">输入量由 Pair 自动从 balance - reserve 计算</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="455" y1="1410" x2="455" y2="1440" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 10: 确定接收地址 ==================== -->
+  <g transform="translate(200, 1450)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">10</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="80" rx="12" fill="rgba(255,255,255,0.95)" stroke="#e91e63" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="22" text-anchor="middle" fill="#e91e63" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      确定本跳输出的接收地址
+    </text>
+    <text x="255" y="45" text-anchor="middle" fill="#11998e" font-size="10" font-family="Arial, sans-serif">
+      to = i &lt; path.length - 2 ? pairFor(output, path[i+2]) : _to
+    </text>
+    <text x="255" y="65" text-anchor="middle" fill="#718096" font-size="10" font-family="Arial, sans-serif">
+      中间跳 → 下一个 Pair | 最后一跳 → 用户地址
+    </text>
+  </g>
+  
+  <!-- 接收地址说明 -->
+  <g transform="translate(720, 1360)">
+    <rect x="0" y="0" width="480" height="130" rx="12" fill="rgba(255,255,255,0.9)" stroke="#11998e" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="240" y="25" text-anchor="middle" fill="#11998e" font-size="13" font-weight="bold" font-family="Arial, sans-serif">🎯 接收地址 (to) 的关键设计</text>
+    <text x="20" y="50" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• 中间跳 (i &lt; path.length - 2):</text>
+    <text x="40" y="68" fill="#718096" font-size="10" font-family="Arial, sans-serif">输出直接发送到下一个 Pair，无需经过 Router</text>
+    <text x="20" y="90" fill="#4a5568" font-size="11" font-family="Arial, sans-serif">• 最后一跳 (i == path.length - 2):</text>
+    <text x="40" y="108" fill="#718096" font-size="10" font-family="Arial, sans-serif">输出发送到用户指定的 _to 地址</text>
+    <text x="20" y="125" fill="#11998e" font-size="10" font-family="Arial, sans-serif">✨ 这种设计节省 gas，代币不经过 Router 中转</text>
+  </g>
+  
+  <!-- 箭头 -->
+  <line x1="455" y1="1530" x2="455" y2="1560" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 11: 调用 Pair.swap ==================== -->
+  <g transform="translate(200, 1570)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">11</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="450" height="80" rx="12" fill="rgba(255,255,255,0.95)" stroke="#11998e" stroke-width="2" filter="url(#shadow)"/>
+    <text x="255" y="22" text-anchor="middle" fill="#11998e" font-size="13" font-weight="bold" font-family="Arial, sans-serif">
+      调用 Pair.swap() 执行交换
+    </text>
+    <text x="255" y="45" text-anchor="middle" fill="#0072ff" font-size="10" font-family="Arial, sans-serif">
+      IUniswapV2Pair(pairFor(input, output)).swap(
+    </text>
+    <text x="255" y="62" text-anchor="middle" fill="#0072ff" font-size="10" font-family="Arial, sans-serif">
+      amount0Out, amount1Out, to, new bytes(0))
+    </text>
+    <text x="255" y="76" text-anchor="middle" fill="#718096" font-size="9" font-family="Arial, sans-serif">
+      源码: 第 219-221 行 | data 为空表示非闪电贷
+    </text>
+  </g>
+  
+  <!-- Pair.swap 说明 -->
+  <g transform="translate(720, 1510)">
+    <rect x="0" y="0" width="480" height="140" rx="12" fill="rgba(255,255,255,0.9)" stroke="#0072ff" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="240" y="25" text-anchor="middle" fill="#0072ff" font-size="13" font-weight="bold" font-family="Arial, sans-serif">⚡ Pair.swap() 内部执行</text>
+    <text x="20" y="50" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">1. 乐观转账: 先将输出代币发送给 to</text>
+    <text x="20" y="68" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">2. 计算输入: amountIn = balance - reserve</text>
+    <text x="20" y="86" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">3. 验证 K 值: balance0Adj * balance1Adj ≥ k * 1000²</text>
+    <text x="20" y="104" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">4. 更新储备: _update(balance0, balance1)</text>
+    <text x="20" y="122" fill="#718096" font-size="9" font-family="Arial, sans-serif">源码: UniswapV2Pair.sol 第 159-187 行</text>
+    <text x="20" y="137" fill="#11998e" font-size="9" font-family="Arial, sans-serif">手续费在 K 值验证中隐式扣除 (0.3%)</text>
+  </g>
+  
+  <!-- 循环箭头 -->
+  <path d="M 455 1650 L 455 1670 L 180 1670 L 180 1130 L 200 1130" fill="none" stroke="#7f00ff" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowPurple)"/>
+  <text x="170" y="1400" fill="#7f00ff" font-size="12" font-weight="bold" font-family="Arial, sans-serif" transform="rotate(-90, 170, 1400)">
+    i++ 继续下一跳
+  </text>
+  
+  <!-- 循环结束条件 -->
+  <g transform="translate(500, 1650)">
+    <rect x="0" y="0" width="200" height="30" rx="8" fill="rgba(255,255,255,0.9)" stroke="#7f00ff" stroke-width="1.5"/>
+    <text x="100" y="20" text-anchor="middle" fill="#7f00ff" font-size="11" font-family="Arial, sans-serif">
+      i == path.length - 1 时退出
+    </text>
+  </g>
+  
+  <!-- ==================== 循环区域结束 ==================== -->
+  
+  <!-- 箭头到最终完成 -->
+  <line x1="700" y1="1680" x2="700" y2="1730" stroke="#11998e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  
+  <!-- ==================== Step 12: 交换完成 ==================== -->
+  <g transform="translate(350, 1740)">
+    <!-- 序号圆圈 -->
+    <circle cx="0" cy="40" r="22" fill="url(#stepGrad)" filter="url(#glow)"/>
+    <text x="0" y="47" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">12</text>
+    
+    <!-- 节点 -->
+    <rect x="30" y="0" width="620" height="80" rx="15" fill="rgba(255,255,255,0.95)" stroke="#11998e" stroke-width="3" filter="url(#glowStrong)"/>
+    <text x="340" y="28" text-anchor="middle" fill="#11998e" font-size="16" font-weight="bold" font-family="Arial, sans-serif">
+      🎉 交换完成，返回 amounts 数组
+    </text>
+    <text x="340" y="52" text-anchor="middle" fill="#0072ff" font-size="12" font-family="Arial, sans-serif">
+      return amounts; // [输入量, 中间量..., 最终输出量]
+    </text>
+    <text x="340" y="72" text-anchor="middle" fill="#5a6a7a" font-size="11" font-family="Arial, sans-serif">
+      用户收到 amounts[amounts.length - 1] 数量的目标代币
+    </text>
+  </g>
+  
+  <!-- ==================== 3跳示例图 ==================== -->
+  <g transform="translate(100, 1850)">
+    <rect x="0" y="0" width="1200" height="120" rx="15" fill="rgba(255,255,255,0.9)" stroke="#0072ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="600" y="25" text-anchor="middle" fill="#0072ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+      📊 3跳交换示例: ETH → USDC → WBTC → UNI
+    </text>
+    
+    <!-- 代币节点 -->
+    <circle cx="100" cy="75" r="30" fill="rgba(255,255,255,0.95)" stroke="#627eea" stroke-width="2" filter="url(#shadow)"/>
+    <text x="100" y="80" text-anchor="middle" fill="#627eea" font-size="11" font-weight="bold" font-family="Arial, sans-serif">ETH</text>
+    
+    <circle cx="350" cy="75" r="30" fill="rgba(255,255,255,0.95)" stroke="#2775ca" stroke-width="2" filter="url(#shadow)"/>
+    <text x="350" y="80" text-anchor="middle" fill="#2775ca" font-size="11" font-weight="bold" font-family="Arial, sans-serif">USDC</text>
+    
+    <circle cx="600" cy="75" r="30" fill="rgba(255,255,255,0.95)" stroke="#f7931a" stroke-width="2" filter="url(#shadow)"/>
+    <text x="600" y="80" text-anchor="middle" fill="#f7931a" font-size="11" font-weight="bold" font-family="Arial, sans-serif">WBTC</text>
+    
+    <circle cx="850" cy="75" r="30" fill="rgba(255,255,255,0.95)" stroke="#ff007a" stroke-width="2" filter="url(#shadow)"/>
+    <text x="850" y="80" text-anchor="middle" fill="#ff007a" font-size="11" font-weight="bold" font-family="Arial, sans-serif">UNI</text>
+    
+    <circle cx="1100" cy="75" r="30" fill="rgba(255,255,255,0.95)" stroke="#11998e" stroke-width="2" filter="url(#shadow)"/>
+    <text x="1100" y="80" text-anchor="middle" fill="#11998e" font-size="11" font-weight="bold" font-family="Arial, sans-serif">User</text>
+    
+    <!-- 箭头和标签 -->
+    <line x1="130" y1="75" x2="310" y2="75" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <text x="220" y="65" text-anchor="middle" fill="#5a6a7a" font-size="9" font-family="Arial, sans-serif">Pair(ETH,USDC)</text>
+    <text x="220" y="95" text-anchor="middle" fill="#11998e" font-size="9" font-family="Arial, sans-serif">i=0, to=Pair2</text>
+    
+    <line x1="380" y1="75" x2="560" y2="75" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <text x="470" y="65" text-anchor="middle" fill="#5a6a7a" font-size="9" font-family="Arial, sans-serif">Pair(USDC,WBTC)</text>
+    <text x="470" y="95" text-anchor="middle" fill="#11998e" font-size="9" font-family="Arial, sans-serif">i=1, to=Pair3</text>
+    
+    <line x1="630" y1="75" x2="810" y2="75" stroke="#0072ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <text x="720" y="65" text-anchor="middle" fill="#5a6a7a" font-size="9" font-family="Arial, sans-serif">Pair(WBTC,UNI)</text>
+    <text x="720" y="95" text-anchor="middle" fill="#11998e" font-size="9" font-family="Arial, sans-serif">i=2, to=User</text>
+    
+    <line x1="880" y1="75" x2="1060" y2="75" stroke="#11998e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    <text x="970" y="65" text-anchor="middle" fill="#11998e" font-size="9" font-family="Arial, sans-serif">最终输出</text>
+  </g>
+  
+  <!-- 图例 -->
+  <g transform="translate(100, 1740)">
+    <rect x="0" y="0" width="220" height="90" rx="10" fill="rgba(255,255,255,0.9)" stroke="#a0aec0" stroke-width="1" filter="url(#shadow)"/>
+    <text x="110" y="20" text-anchor="middle" fill="#4a5568" font-size="12" font-weight="bold" font-family="Arial, sans-serif">图例</text>
+    <circle cx="25" cy="42" r="12" fill="url(#stepGrad)"/>
+    <text x="50" y="47" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">执行序号</text>
+    <rect x="120" y="32" width="20" height="20" rx="3" fill="none" stroke="#e91e63" stroke-width="2"/>
+    <text x="150" y="47" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">判断</text>
+    <rect x="15" y="62" width="20" height="15" rx="3" fill="none" stroke="#0072ff" stroke-width="2"/>
+    <text x="45" y="74" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">处理</text>
+    <rect x="100" y="62" width="20" height="15" rx="3" fill="none" stroke="#11998e" stroke-width="2"/>
+    <text x="130" y="74" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">成功</text>
+    <rect x="170" y="62" width="20" height="15" rx="3" fill="none" stroke="#ff4b2b" stroke-width="2"/>
+    <text x="200" y="74" fill="#4a5568" font-size="10" font-family="Arial, sans-serif">错误</text>
+  </g>
+</svg>

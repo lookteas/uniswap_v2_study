@@ -1,0 +1,373 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000">
+  <defs>
+    <!-- 背景渐变 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a3a7a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 卡片渐变 -->
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a4a;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#1a1a3a;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- 最优路径渐变 -->
+    <linearGradient id="bestPathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.3" />
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glowStrong">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 箭头标记 -->
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00d4ff"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00ff88"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1400" height="1000" fill="url(#bgGradient)"/>
+  
+  <!-- 网格背景 -->
+  <g opacity="0.08">
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#dee8eaff" stroke-width="2.5"/>
+    </pattern>
+    <rect width="1400" height="1000" fill="url(#grid)"/>
+  </g>
+  
+  <!-- 标题 -->
+  <text x="700" y="45" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="26" font-weight="bold">
+    Uniswap V2 路径发现与最优路径选择流程
+  </text>
+  <text x="700" y="75" text-anchor="middle" fill="#00d4ff" font-family="Arial, sans-serif" font-size="14">
+    用户想用 1000 DOGE 兑换 ETH，前端/SDK 如何计算最优路径？
+  </text>
+  
+  <!-- ==================== Step 1: 用户输入 ==================== -->
+  <g transform="translate(50, 110)">
+    <circle cx="25" cy="45" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="51" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">1</text>
+    
+    <rect x="55" y="15" width="250" height="70" rx="10" fill="url(#cardGradient)" stroke="#00d4ff" stroke-width="2"/>
+    <text x="180" y="40" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">用户输入交易需求</text>
+    <text x="180" y="60" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="12">输入: 1000 DOGE</text>
+    <text x="180" y="78" text-anchor="middle" fill="#00d4ff" font-family="Arial, sans-serif" font-size="12">输出: ETH (数量待计算)</text>
+  </g>
+  
+  <!-- 箭头 1→2 -->
+  <path d="M 355 155 L 420 155" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 2: 查询链上交易对 ==================== -->
+  <g transform="translate(420, 100)">
+    <circle cx="25" cy="55" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="61" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">2</text>
+    
+    <rect x="55" y="10" width="300" height="100" rx="10" fill="url(#cardGradient)" stroke="#7b2ff7" stroke-width="2"/>
+    <text x="205" y="35" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">查询链上交易对信息</text>
+    <text x="205" y="55" text-anchor="middle" fill="#888" font-family="Arial, sans-serif" font-size="10">Factory.getPair() / The Graph / Events</text>
+    
+    <text x="100" y="78" fill="#00d4ff" font-family="monospace" font-size="9">✓ DOGE-USDT 存在</text>
+    <text x="100" y="92" fill="#00d4ff" font-family="monospace" font-size="9">✓ ETH-USDT 存在</text>
+    <text x="220" y="78" fill="#00d4ff" font-family="monospace" font-size="9">✓ ETH-USDC 存在</text>
+    <text x="220" y="92" fill="#00d4ff" font-family="monospace" font-size="9">✓ USDT-USDC 存在</text>
+  </g>
+  
+  <!-- 箭头 2→3 -->
+  <path d="M 775 155 L 840 155" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 3: 构建交易对图 ==================== -->
+  <g transform="translate(840, 100)">
+    <circle cx="25" cy="55" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="61" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">3</text>
+    
+    <rect x="55" y="10" width="450" height="100" rx="10" fill="url(#cardGradient)" stroke="#00d4ff" stroke-width="2"/>
+    <text x="280" y="35" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">构建交易对图 (Graph)</text>
+    
+    <!-- 小型图示 -->
+    <circle cx="120" cy="70" r="18" fill="#ffd700" opacity="0.8"/>
+    <text x="120" y="75" text-anchor="middle" fill="#000" font-family="Arial" font-size="8" font-weight="bold">DOGE</text>
+    
+    <circle cx="200" cy="70" r="18" fill="#00d4ff" opacity="0.8"/>
+    <text x="200" y="75" text-anchor="middle" fill="#000" font-family="Arial" font-size="8" font-weight="bold">USDT</text>
+    
+    <circle cx="280" cy="50" r="18" fill="#7b2ff7" opacity="0.8"/>
+    <text x="280" y="55" text-anchor="middle" fill="#fff" font-family="Arial" font-size="8" font-weight="bold">ETH</text>
+    
+    <circle cx="280" cy="90" r="18" fill="#00ff88" opacity="0.8"/>
+    <text x="280" y="95" text-anchor="middle" fill="#000" font-family="Arial" font-size="8" font-weight="bold">USDC</text>
+    
+    <circle cx="360" cy="70" r="18" fill="#ff6b6b" opacity="0.8"/>
+    <text x="360" y="75" text-anchor="middle" fill="#fff" font-family="Arial" font-size="8" font-weight="bold">DAI</text>
+    
+    <!-- 连线 -->
+    <line x1="138" y1="70" x2="182" y2="70" stroke="#fff" stroke-width="1.5"/>
+    <line x1="218" y1="65" x2="262" y2="55" stroke="#fff" stroke-width="1.5"/>
+    <line x1="218" y1="75" x2="262" y2="85" stroke="#fff" stroke-width="1.5"/>
+    <line x1="298" y1="55" x2="342" y2="65" stroke="#fff" stroke-width="1.5"/>
+    <line x1="298" y1="85" x2="342" y2="75" stroke="#fff" stroke-width="1.5"/>
+    <line x1="280" y1="68" x2="280" y2="72" stroke="#fff" stroke-width="1.5"/>
+    
+    <text x="430" y="60" fill="#888" font-family="Arial" font-size="9">每条边 =</text>
+    <text x="430" y="75" fill="#888" font-family="Arial" font-size="9">一个交易对</text>
+  </g>
+  
+  <!-- ==================== Step 4: 寻找所有可能路径 ==================== -->
+  <g transform="translate(50, 250)">
+    <circle cx="25" cy="100" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="106" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">4</text>
+    
+    <rect x="55" y="10" width="500" height="190" rx="10" fill="url(#cardGradient)" stroke="#ffd700" stroke-width="2"/>
+    <text x="305" y="35" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">寻找所有可能路径 (BFS/DFS 图遍历)</text>
+    <text x="305" y="52" text-anchor="middle" fill="#888" font-family="Arial, sans-serif" font-size="10">只通过常用基础代币: WETH, USDT, USDC, DAI, WBTC</text>
+    
+    <!-- 路径1 -->
+    <rect x="70" y="65" width="470" height="35" rx="5" fill="#1a3a2a" stroke="#00ff88" stroke-width="1"/>
+    <text x="85" y="87" fill="#00ff88" font-family="monospace" font-size="11" font-weight="bold">路径1:</text>
+    <text x="145" y="87" fill="#ffd700" font-family="monospace" font-size="11">DOGE</text>
+    <text x="195" y="87" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="215" y="87" fill="#00d4ff" font-family="monospace" font-size="11">USDT</text>
+    <text x="265" y="87" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="285" y="87" fill="#7b2ff7" font-family="monospace" font-size="11">ETH</text>
+    <text x="450" y="87" fill="#888" font-family="monospace" font-size="10">(2跳)</text>
+    
+    <!-- 路径2 -->
+    <rect x="70" y="105" width="470" height="35" rx="5" fill="#2a2a4a"/>
+    <text x="85" y="127" fill="#888" font-family="monospace" font-size="11" font-weight="bold">路径2:</text>
+    <text x="145" y="127" fill="#ffd700" font-family="monospace" font-size="11">DOGE</text>
+    <text x="195" y="127" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="215" y="127" fill="#00d4ff" font-family="monospace" font-size="11">USDT</text>
+    <text x="265" y="127" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="285" y="127" fill="#00ff88" font-family="monospace" font-size="11">USDC</text>
+    <text x="335" y="127" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="355" y="127" fill="#7b2ff7" font-family="monospace" font-size="11">ETH</text>
+    <text x="450" y="127" fill="#888" font-family="monospace" font-size="10">(3跳)</text>
+    
+    <!-- 路径3 -->
+    <rect x="70" y="145" width="470" height="35" rx="5" fill="#2a2a4a"/>
+    <text x="85" y="167" fill="#888" font-family="monospace" font-size="11" font-weight="bold">路径3:</text>
+    <text x="145" y="167" fill="#ffd700" font-family="monospace" font-size="11">DOGE</text>
+    <text x="195" y="167" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="215" y="167" fill="#00d4ff" font-family="monospace" font-size="11">USDT</text>
+    <text x="265" y="167" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="285" y="167" fill="#ff6b6b" font-family="monospace" font-size="11">DAI</text>
+    <text x="325" y="167" fill="#fff" font-family="monospace" font-size="11">→</text>
+    <text x="345" y="167" fill="#7b2ff7" font-family="monospace" font-size="11">ETH</text>
+    <text x="450" y="167" fill="#888" font-family="monospace" font-size="10">(3跳)</text>
+  </g>
+  
+  <!-- 箭头 4→5 -->
+  <path d="M 555 350 L 620 350" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
+  
+  <!-- ==================== Step 5: 计算每条路径输出 ==================== -->
+  <g transform="translate(620, 250)">
+    <circle cx="25" cy="100" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="106" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">5</text>
+    
+    <rect x="55" y="10" width="680" height="190" rx="10" fill="url(#cardGradient)" stroke="#00d4ff" stroke-width="2"/>
+    <text x="395" y="35" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">调用 getAmountsOut 计算每条路径的输出金额</text>
+    <text x="395" y="52" text-anchor="middle" fill="#888" font-family="Arial, sans-serif" font-size="10">amountIn = 1000 DOGE，计算最终能得到多少 ETH</text>
+    
+    <!-- 路径1计算结果 - 最优 -->
+    <rect x="70" y="65" width="650" height="35" rx="5" fill="url(#bestPathGradient)" stroke="#00ff88" stroke-width="2"/>
+    <text x="85" y="87" fill="#00ff88" font-family="monospace" font-size="11" font-weight="bold">路径1:</text>
+    <text x="145" y="87" fill="#fff" font-family="monospace" font-size="10">getAmountsOut(1000, [DOGE,USDT,ETH])</text>
+    <text x="420" y="87" fill="#888" font-family="monospace" font-size="10">→ amounts =</text>
+    <text x="520" y="87" fill="#ffd700" font-family="monospace" font-size="10">[1000, 50, 0.020]</text>
+    <text x="650" y="87" fill="#00ff88" font-family="monospace" font-size="11" font-weight="bold">✓ 0.020 ETH</text>
+    
+    <!-- 路径2计算结果 -->
+    <rect x="70" y="105" width="650" height="35" rx="5" fill="#2a2a4a"/>
+    <text x="85" y="127" fill="#888" font-family="monospace" font-size="11" font-weight="bold">路径2:</text>
+    <text x="145" y="127" fill="#fff" font-family="monospace" font-size="10">getAmountsOut(1000, [DOGE,USDT,USDC,ETH])</text>
+    <text x="420" y="127" fill="#888" font-family="monospace" font-size="10">→ amounts =</text>
+    <text x="520" y="127" fill="#ffd700" font-family="monospace" font-size="10">[1000, 50, 49.8, 0.019]</text>
+    <text x="665" y="127" fill="#666" font-family="monospace" font-size="11">0.019 ETH</text>
+    
+    <!-- 路径3计算结果 -->
+    <rect x="70" y="145" width="650" height="35" rx="5" fill="#2a2a4a"/>
+    <text x="85" y="167" fill="#888" font-family="monospace" font-size="11" font-weight="bold">路径3:</text>
+    <text x="145" y="167" fill="#fff" font-family="monospace" font-size="10">getAmountsOut(1000, [DOGE,USDT,DAI,ETH])</text>
+    <text x="420" y="167" fill="#888" font-family="monospace" font-size="10">→ amounts =</text>
+    <text x="520" y="167" fill="#ffd700" font-family="monospace" font-size="10">[1000, 50, 49.5, 0.018]</text>
+    <text x="665" y="167" fill="#666" font-family="monospace" font-size="11">0.018 ETH</text>
+  </g>
+  
+  <!-- ==================== Step 6: 比较选择最优路径 ==================== -->
+  <g transform="translate(50, 480)">
+    <circle cx="25" cy="70" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="76" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">6</text>
+    
+    <rect x="55" y="15" width="550" height="120" rx="10" fill="url(#cardGradient)" stroke="#ffd700" stroke-width="2"/>
+    <text x="330" y="40" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">比较输出金额，选择最优路径</text>
+    
+    <text x="80" y="65" fill="#888" font-family="monospace" font-size="11">路径1: 0.020 ETH</text>
+    <text x="220" y="65" fill="#00ff88" font-family="monospace" font-size="11">← MAX (最大输出)</text>
+    
+    <text x="80" y="85" fill="#666" font-family="monospace" font-size="11">路径2: 0.019 ETH</text>
+    <text x="220" y="85" fill="#666" font-family="monospace" font-size="11">(-5% 因为多一跳手续费)</text>
+    
+    <text x="80" y="105" fill="#666" font-family="monospace" font-size="11">路径3: 0.018 ETH</text>
+    <text x="220" y="105" fill="#666" font-family="monospace" font-size="11">(-10% 因为多一跳手续费)</text>
+    
+    <rect x="400" y="55" width="190" height="65" rx="8" fill="#1a3a2a" stroke="#00ff88" stroke-width="2"/>
+    <text x="495" y="78" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="12" font-weight="bold">🏆 最优路径</text>
+    <text x="495" y="98" text-anchor="middle" fill="#ffd700" font-family="monospace" font-size="11">[DOGE, USDT, ETH]</text>
+    <text x="495" y="113" text-anchor="middle" fill="#fff" font-family="monospace" font-size="10">输出: 0.020 ETH</text>
+  </g>
+  
+  <!-- 箭头 6→7 -->
+  <path d="M 605 550 L 680 550" stroke="#00ff88" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+  
+  <!-- ==================== Step 7: 返回给客户端 ==================== -->
+  <g transform="translate(680, 480)">
+    <circle cx="25" cy="70" r="20" fill="#ff4757" filter="url(#glow)"/>
+    <text x="25" y="76" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">7</text>
+    
+    <rect x="55" y="15" width="600" height="120" rx="10" fill="url(#cardGradient)" stroke="#00ff88" stroke-width="2"/>
+    <text x="355" y="40" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold">返回最优路径给客户端，准备调用合约</text>
+    
+    <text x="80" y="70" fill="#00d4ff" font-family="monospace" font-size="10">swapExactTokensForTokens(</text>
+    <text x="100" y="87" fill="#ffd700" font-family="monospace" font-size="10">amountIn: 1000,</text>
+    <text x="100" y="104" fill="#ffd700" font-family="monospace" font-size="10">amountOutMin: 0.019,  // 滑点保护 5%(仅示例，非实际设置)</text>
+    <text x="100" y="121" fill="#00ff88" font-family="monospace" font-size="10">path: [DOGE, USDT, ETH],  // 最优路径!</text>
+    
+    <text x="380" y="70" fill="#ffd700" font-family="monospace" font-size="10">to: userAddress,</text>
+    <text x="380" y="87" fill="#ffd700" font-family="monospace" font-size="10">deadline: now + 20min</text>
+    <text x="380" y="104" fill="#00d4ff" font-family="monospace" font-size="10">)</text>
+    
+    <rect x="500" y="55" width="140" height="65" rx="8" fill="#7b2ff7" opacity="0.3" stroke="#7b2ff7" stroke-width="1"/>
+    <text x="570" y="78" text-anchor="middle" fill="#fff" font-family="Arial" font-size="10">预期结果</text>
+    <text x="570" y="95" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="14" font-weight="bold">0.020 ETH</text>
+    <text x="570" y="112" text-anchor="middle" fill="#888" font-family="Arial" font-size="9">手续费 ~0.6%</text>
+  </g>
+  
+  <!-- ==================== 底部：完整流程总结 ==================== -->
+  <g transform="translate(50, 640)">
+    <rect x="0" y="0" width="1300" height="160" rx="15" fill="url(#cardGradient)" stroke="#00d4ff" stroke-width="1" opacity="0.9"/>
+    
+    <text x="650" y="30" text-anchor="middle" fill="#00d4ff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">完整流程总结</text>
+    <line x1="50" y1="45" x2="1250" y2="45" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+    
+    <!-- 流程节点 -->
+    <g transform="translate(80, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#ffd700" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#ffd700" font-family="Arial" font-size="10" font-weight="bold">用户输入</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">1000 DOGE → ETH</text>
+    </g>
+    
+    <path d="M 210 100 L 250 100" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    
+    <g transform="translate(250, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#7b2ff7" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#7b2ff7" font-family="Arial" font-size="10" font-weight="bold">查询交易对</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">Factory / Graph</text>
+    </g>
+    
+    <path d="M 380 100 L 420 100" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    
+    <g transform="translate(420, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#00d4ff" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="10" font-weight="bold">构建图</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">代币为节点</text>
+    </g>
+    
+    <path d="M 550 100 L 590 100" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    
+    <g transform="translate(590, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#ffd700" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#ffd700" font-family="Arial" font-size="10" font-weight="bold">寻找路径</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">BFS/启发式搜索</text>
+    </g>
+    
+    <path d="M 720 100 L 760 100" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    
+    <g transform="translate(760, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#00d4ff" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#00d4ff" font-family="Arial" font-size="10" font-weight="bold">计算输出</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">getAmountsOut</text>
+    </g>
+    
+    <path d="M 890 100 L 930 100" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    
+    <g transform="translate(930, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#2a2a4a" stroke="#00ff88" stroke-width="1"/>
+      <text x="65" y="25" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="10" font-weight="bold">选择最优</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">输出最大的路径</text>
+    </g>
+    
+    <path d="M 1060 100 L 1100 100" stroke="#00ff88" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    
+    <g transform="translate(1100, 70)">
+      <rect x="0" y="0" width="130" height="60" rx="8" fill="#1a3a2a" stroke="#00ff88" stroke-width="2"/>
+      <text x="65" y="25" text-anchor="middle" fill="#00ff88" font-family="Arial" font-size="10" font-weight="bold">调用合约</text>
+      <text x="65" y="42" text-anchor="middle" fill="#fff" font-family="Arial" font-size="9">执行 Swap</text>
+    </g>
+    
+    <text x="650" y="150" text-anchor="middle" fill="#888" font-family="Arial, sans-serif" font-size="10">
+      整个路径计算过程在链下(前端/SDK)完成，只有最后一步调用合约才上链
+    </text>
+  </g>
+  
+  <!-- 右侧关键说明 -->
+  <g transform="translate(50, 830)">
+    <rect x="0" y="0" width="1300" height="130" rx="10" fill="url(#cardGradient)" stroke="#ff4757" stroke-width="1" opacity="0.8"/>
+    <text x="650" y="25" text-anchor="middle" fill="#ff4757" font-family="Arial, sans-serif" font-size="13" font-weight="bold">⚠️ 关键要点</text>
+    
+    <g transform="translate(50, 45)">
+      <circle cx="8" cy="8" r="6" fill="#00ff88"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">路径计算在链下完成，不消耗 Gas</text>
+    </g>
+    
+    <g transform="translate(350, 45)">
+      <circle cx="8" cy="8" r="6" fill="#00ff88"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">只检查常用基础代币路径，避免遍历所有交易对</text>
+    </g>
+    
+    <g transform="translate(750, 45)">
+      <circle cx="8" cy="8" r="6" fill="#00ff88"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">getAmountsOut 是 view 函数，免费调用</text>
+    </g>
+    
+    <g transform="translate(50, 75)">
+      <circle cx="8" cy="8" r="6" fill="#ffd700"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">跳数越少，手续费越低 (每跳 0.3%)</text>
+    </g>
+    
+    <g transform="translate(350, 75)">
+      <circle cx="8" cy="8" r="6" fill="#ffd700"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">最优路径 ≠ 最短路径，要看实际输出金额</text>
+    </g>
+    
+    <g transform="translate(750, 75)">
+      <circle cx="8" cy="8" r="6" fill="#ffd700"/>
+      <text x="25" y="12" fill="#fff" font-family="Arial" font-size="11">大额交易可能拆分到多条路径执行</text>
+    </g>
+    
+    <text x="650" y="115" text-anchor="middle" fill="#ebafafff" font-family="Arial" font-size="10">
+      Uniswap V2 Path Discovery Flow | 前端计算最优路径 → 合约执行交易
+    </text>
+  </g>
+</svg>
